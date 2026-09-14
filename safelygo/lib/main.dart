@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'pages/signIN.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -29,7 +31,6 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         brightness: Brightness.dark,
-        hintColor: const Color.fromARGB(255, 51, 243, 33),
       ),
       home: const MyHomePage(title: 'Login Page'),
     );
@@ -57,15 +58,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void gurl() {
+    print("This button is gay");
   }
 
   @override
@@ -86,42 +80,38 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Padding(
+        padding: EdgeInsetsGeometry.directional(
+          bottom: 20,
+          top: 10,
+          start: 30,
+          end: 30,
+        ),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Text("Login"),
+            Spacer(flex: 0),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Username"),
+                label: Text("Username"),
+                border: OutlineInputBorder(),
+              ),
             ),
-            TextButton(
-              onPressed: _incrementCounter,
-              child: Text("Jerry is the best!!!"),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Password"),
+                label: Text("Password"),
+                border: OutlineInputBorder(),
+              ),
             ),
+            TextButton(onPressed: gurl, child: Text("Login")),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
 }
+//FABOOBOO!!!!!!
