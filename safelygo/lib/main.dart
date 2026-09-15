@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/signIN.dart';
+import 'pages/signIn.dart';
 
 void main() {
   runApp(const MyApp());
@@ -92,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
           children: [
             Text("Login"),
-            Spacer(flex: 0),
             TextField(
               decoration: InputDecoration(
                 hint: Text("Username"),
@@ -107,7 +106,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            TextButton(onPressed: gurl, child: Text("Login")),
+            FilledButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(builder: (context) => SignIn()),
+                );
+              },
+              child: Text("Login"),
+            ),
           ],
         ),
       ),

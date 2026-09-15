@@ -1,43 +1,56 @@
 import 'package:flutter/material.dart';
 
-class SignIn extends State<StatefulWidget> {
+class SignIn extends StatelessWidget {
+  const SignIn({super.key});
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("JERRY"),
-      ),
+      appBar: AppBar(title: const Text('Sign Up')),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [Text("nerdy dude testing")],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('this is a text!!!'),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("First Name"),
+                label: Text('First Name'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Last Name"),
+                label: Text('Last Name'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Email"),
+                label: Text('Email'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Password"),
+                label: Text('Password'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                hint: Text("Comfirm Password"),
+                label: Text('Comfirm Password'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            FilledButton(
+              onPressed: null,
+              child: Text("Why does this button require a child sacrifice"),
+            ),
+          ],
         ),
       ),
     );
