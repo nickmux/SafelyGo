@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/signIn.dart';
+import 'pages/mainHub.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,14 +107,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            FilledButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(builder: (context) => SignIn()),
-                );
-              },
-              child: Text("Login"),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(builder: (context) => SignIn()),
+                      );
+                    },
+                    style: ButtonStyle(visualDensity: VisualDensity.compact),
+                    child: Text("Sign Up"),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute<void>(builder: (context) => Home()),
+                      );
+                    },
+                    style: ButtonStyle(visualDensity: VisualDensity.compact),
+                    child: Text("Login"),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

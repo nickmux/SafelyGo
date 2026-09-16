@@ -6,11 +6,12 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign Up')),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsetsGeometry.all(25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('this is a text!!!'),
+            Text('Sign Up', textScaler: TextScaler.linear(2)),
             TextField(
               decoration: InputDecoration(
                 hint: Text("First Name"),
@@ -47,7 +48,9 @@ class SignIn extends StatelessWidget {
               ),
             ),
             FilledButton(
-              onPressed: null,
+              onPressed: () {
+                print("jerry");
+              },
               child: Text("Why does this button require a child sacrifice"),
             ),
           ],
