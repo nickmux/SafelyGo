@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 
-class Card extends StatelessWidget {
-  const Card({super.key});
+class Jerry extends StatelessWidget {
+  const Jerry({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(body: Column(children: [Text("jerry")]));
+    return Center(
+      child: Column(
+        mainAxisSize: .min,
+        children: <Widget>[
+          const ListTile(
+            leading: Icon(Icons.safety_check),
+            title: Text("Jerry"),
+            subtitle: Text("Carsen keeps calling his creations bimbos"),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(onPressed: null, child: Text("Status")),
+              TextButton(onPressed: null, child: Text("Touch Grass")),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
