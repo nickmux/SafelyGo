@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:safelygo/Components/Card.dart';
 
+import 'reportCreationPage.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
   @override
   Widget build(BuildContext context) {
-    int selectedIndex = 1;
+    int selectedIndex = 0;
 
-    int _indexSelected() {
+    int indexSelected() {
       return selectedIndex;
     }
 
@@ -28,7 +30,7 @@ class Home extends StatelessWidget {
 
         selectedItemColor:
             Colors.purple, // Prevents unexpected black backgrounds
-        currentIndex: _indexSelected(),
+        currentIndex: indexSelected(),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Reports"),
 
@@ -48,11 +50,24 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("wow you pressed it");
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(builder: (context) => ReportCreationPage()),
+          );
         },
       ),
       body: Container(
-        child: Column(children: [Text("Main HUB"), Text("Nerd"),Scrollbar(child: Text("Reports"),chil)]),
+        child: Column(
+          children: [
+            Text("Main HUB"),
+            Text("REAL TIME"),
+            Scrollbar(child: Text("Reports")),
+            ReportCard(),
+            ReportCard(),
+            ReportCard(),
+            ReportCard(),
+          ],
+        ),
       ),
     );
   }
