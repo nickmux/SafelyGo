@@ -29,9 +29,23 @@ class MyApp extends StatelessWidget {
         // state is not lost during the reload. To reset the state, use hot
         // restart instead.
         //
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6750A4),
+          brightness: Brightness.dark,
+          primary: Color(0xFF6750A4),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8F7FA),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
+        ),
+
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        brightness: Brightness.dark,
       ),
       home: const MyHomePage(title: 'Login Page'),
     );
@@ -67,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
+    //
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
