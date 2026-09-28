@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "6735545479",
+    "project_id": "safelygo-backend",
+    "storage_bucket": "safelygo-backend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6735545479:android:280ab5aa3603d0468aa422",
+        "android_client_info": {
+          "package_name": "com.example.safelygo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk-JpKWSbiixbIKUkUuQIW5boXdqynpo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

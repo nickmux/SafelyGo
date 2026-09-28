@@ -13,7 +13,11 @@ class SignIn extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Sign Up', textScaler: TextScaler.linear(2)),
+              Text(
+                'Sign Up for SafelyGo',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight(400)),
+              ),
+              SizedBox(height: 64),
               TextField(
                 decoration: InputDecoration(
                   hint: Text("First Name"),
@@ -21,6 +25,7 @@ class SignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(height: 64),
               TextField(
                 decoration: InputDecoration(
                   hint: Text("Last Name"),
@@ -28,6 +33,7 @@ class SignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(height: 64),
               TextField(
                 decoration: InputDecoration(
                   hint: Text("Email"),
@@ -35,6 +41,7 @@ class SignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(height: 64),
               TextField(
                 decoration: InputDecoration(
                   hint: Text("Password"),
@@ -42,6 +49,7 @@ class SignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(height: 64),
               TextField(
                 decoration: InputDecoration(
                   hint: Text("Comfirm Password"),
@@ -49,7 +57,7 @@ class SignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
-              Spacer(),
+              SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () {
                   print("sign up button pressed");

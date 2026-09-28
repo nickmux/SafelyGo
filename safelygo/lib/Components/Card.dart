@@ -11,15 +11,13 @@ class ReportCard extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.safety_check),
             title: Text("Jerry"),
-            subtitle: Text("Carsen keeps calling his creations bimbos"),
+            subtitle: Text("Phoenix keeps calling his creations bimbos"),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(onPressed: null, child: Text("Status")),
-              TextButton(onPressed: null, child: Text("Touch Grass")),
-            ],
+            children: [TextButton(onPressed: null, child: Text("Status"))],
           ),
+          SizedBox(height: 4),
         ],
       ),
     );

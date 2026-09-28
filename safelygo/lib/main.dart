@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/signIn.dart';
+import 'pages/signUp.dart';
 import 'pages/mainHub.dart';
 
 void main() {
@@ -29,11 +29,10 @@ class MyApp extends StatelessWidget {
         // state is not lost during the reload. To reset the state, use hot
         // restart instead.
         //
-
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6750A4),
-          brightness: Brightness.dark,
           primary: Color(0xFF6750A4),
+          secondary: Color(0x0000),
         ),
         scaffoldBackgroundColor: const Color(0xFFF8F7FA),
         inputDecorationTheme: InputDecorationTheme(
@@ -74,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final int _counter = 0;
 
   void gurl() {
-    print("This button is gay");
+    print("This is a test button");
   }
 
   @override
@@ -90,8 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
@@ -103,53 +104,65 @@ class _MyHomePageState extends State<MyHomePage> {
           start: 30,
           end: 30,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Card(
+          child: Column(
+            children: [
+              SizedBox(height: 64),
+              Text(
+                "Login to your SafelyGo Account",
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight(400)),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 64),
+              TextField(
+                decoration: InputDecoration(
+                  hint: Text("Email"),
+                  label: Text("Email"),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 64),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  hint: Text("Password"),
+                  label: Text("Password"),
 
-          children: [
-            Text("Login"),
-            TextField(
-              decoration: InputDecoration(
-                hint: Text("Username"),
-                label: Text("Username"),
-                border: OutlineInputBorder(),
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                hint: Text("Password"),
-                label: Text("Password"),
-                border: OutlineInputBorder(),
+              SizedBox(height: 64),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => SignIn(),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(visualDensity: VisualDensity.compact),
+                      child: Text("Sign Up"),
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<void>(builder: (context) => Home()),
+                        );
+                      },
+                      style: ButtonStyle(visualDensity: VisualDensity.compact),
+                      child: Text("Login"),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(builder: (context) => SignIn()),
-                      );
-                    },
-                    style: ButtonStyle(visualDensity: VisualDensity.compact),
-                    child: Text("Sign Up"),
-                  ),
-                  FilledButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute<void>(builder: (context) => Home()),
-                      );
-                    },
-                    style: ButtonStyle(visualDensity: VisualDensity.compact),
-                    child: Text("Login"),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

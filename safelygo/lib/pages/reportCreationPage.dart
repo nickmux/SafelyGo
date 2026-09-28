@@ -5,6 +5,9 @@ class ReportCreationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Column(children: [Text("Wow")]));
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(children: [Text("Wow")]),
+    );
   }
 }
