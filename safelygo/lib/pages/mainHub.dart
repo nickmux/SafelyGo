@@ -1,5 +1,6 @@
+import 'package:SafelyGo/Components/Card.dart';
 import 'package:flutter/material.dart';
-import 'package:safelygo/Components/Card.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'reportCreationPage.dart';
 
@@ -49,6 +50,7 @@ class Home extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,
@@ -59,13 +61,15 @@ class Home extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            Text("Main HUB"),
-            Text("REAL TIME"),
-            Scrollbar(child: Text("Reports")),
-            ReportCard(),
-            ReportCard(),
-            ReportCard(),
-            ReportCard(),
+            SizedBox(height: 32),
+            Text(
+              "Reports",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
+            ),
+            SizedBox(height: 32),
+            GoogleMap(
+              initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
+            ),
           ],
         ),
       ),
