@@ -1,19 +1,26 @@
+import 'dart:async';
+
 import 'package:SafelyGo/Components/Card.dart';
+import 'package:SafelyGo/pages/reportListPage.dart';
+import 'package:SafelyGo/pages/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'reportCreationPage.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class MapScreen extends StatefulWidget {
+  const MapScreen({super.key});
+
+  @override
+  Home createState() => Home();
+}
+
+class Home extends State<MapScreen> with AutomaticKeepAliveClientMixin {
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    int selectedIndex = 0;
-
-    int indexSelected() {
-      return selectedIndex;
-    }
-
+    super.build(context);
+    List<Widget> pages = [ReportsPage(), SignIn(), ReportCard(), ReportsPage()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -27,11 +34,15 @@ class Home extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-
-        selectedItemColor:
-            Colors.purple, // Prevents unexpected black backgrounds
-        currentIndex: indexSelected(),
+        type: BottomNavigationBarType.fixed,
+        // Prevents unexpected black backgrounds
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+            print('works $index , $selectedIndex');
+          });
+        },
+        currentIndex: selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Reports"),
 
@@ -39,10 +50,7 @@ class Home extends StatelessWidget {
             icon: Icon(Icons.compare_arrows_sharp),
             label: "Map",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.safety_check),
-            label: "nerd",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(
             icon: Icon(Icons.abc_outlined),
             label: "nerd",
@@ -54,25 +62,15 @@ class Home extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute<void>(builder: (context) => ReportCreationPage()),
+            MaterialPageRoute<void>(builder: (context) => ReportCreationLive()),
           );
         },
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(height: 32),
-            Text(
-              "Reports",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
-            ),
-            SizedBox(height: 32),
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
-            ),
-          ],
-        ),
-      ),
+      body: pages[selectedIndex],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

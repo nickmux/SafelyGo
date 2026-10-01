@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6750A4),
           primary: Color(0xFF6750A4),
-          secondary: Color(0x0000),
+          secondary: Color(0x00000000),
         ),
         scaffoldBackgroundColor: const Color(0xFFF8F7FA),
         inputDecorationTheme: InputDecorationTheme(
@@ -152,7 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute<void>(builder: (context) => Home()),
+                          MaterialPageRoute<void>(
+                            builder: (context) => MapScreen(),
+                          ),
                         );
                       },
                       style: ButtonStyle(visualDensity: VisualDensity.compact),
