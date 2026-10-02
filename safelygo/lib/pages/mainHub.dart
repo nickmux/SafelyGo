@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:SafelyGo/Components/Card.dart';
 import 'package:SafelyGo/pages/reportListPage.dart';
 import 'package:SafelyGo/pages/signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -20,7 +21,7 @@ class Home extends State<MapScreen> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> pages = [ReportsPage(), SignIn(), ReportCard(), ReportsPage()];
+    List<Widget> pages = [ReportsPage(), signUp(), ReportCard(), ReportsPage()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to

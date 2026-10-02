@@ -1,15 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/signUp.dart';
 import 'pages/mainHub.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+
+Future<void> initializeDefault() async {
+  FirebaseApp app = await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyCk-JpKWSbiixbIKUkUuQIW5boXdqynpo4",
+      appId: "1:6735545479:android:280ab5aa3603d0468aa422",
+      messagingSenderId: "6735545479",
+      projectId: "safelygo-backend",
+    ),
+  );
+}
+
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  initializeDefault();
+  const MyApp();
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -81,7 +96,24 @@ class _MyHomePageState extends State<MyHomePage> {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
-    //
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final TextEditingController email = TextEditingController();
+    final TextEditingController password = TextEditingController();
+
+    void _signin(String email, String password) async {
+      try {
+        auth.signInWithEmailAndPassword(email: email, password: password);
+        MaterialPageRoute<void>(builder: (context) => MapScreen());
+        Navigator.push(
+          context,
+
+          MaterialPageRoute<void>(builder: (context) => signUp()),
+        );
+      } catch (e) {
+        print(e);
+      }
+    }
+
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
@@ -120,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text("Email"),
                   border: OutlineInputBorder(),
                 ),
+                controller: email,
               ),
               SizedBox(height: 64),
               TextField(
@@ -130,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   border: OutlineInputBorder(),
                 ),
+                controller: password,
               ),
               SizedBox(height: 64),
               Center(
@@ -140,8 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
+
                           MaterialPageRoute<void>(
-                            builder: (context) => SignIn(),
+                            builder: (context) => signUp(),
                           ),
                         );
                       },
@@ -150,12 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     FilledButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => MapScreen(),
-                          ),
-                        );
+                        _signin(email.text, password.text);
                       },
                       style: ButtonStyle(visualDensity: VisualDensity.compact),
                       child: Text("Login"),
