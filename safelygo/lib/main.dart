@@ -6,21 +6,21 @@ import 'pages/mainHub.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
-Future<void> initializeDefault() async {
-  FirebaseApp app = await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCk-JpKWSbiixbIKUkUuQIW5boXdqynpo4",
-      appId: "1:6735545479:android:280ab5aa3603d0468aa422",
-      messagingSenderId: "6735545479",
-      projectId: "safelygo-backend",
-    ),
-  );
-}
-
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeDefault();
-  const MyApp();
+  try {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyCk-JpKWSbiixbIKUkUuQIW5boXdqynpo4",
+        appId: "1:6735545479:android:280ab5aa3603d0468aa422",
+        messagingSenderId: "6735545479",
+        projectId: "safelygo-backend",
+      ),
+    );
+  } catch (e) {
+    print("e");
+  }
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -95,7 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
-    //
     final FirebaseAuth auth = FirebaseAuth.instance;
     final TextEditingController email = TextEditingController();
     final TextEditingController password = TextEditingController();
@@ -103,14 +102,32 @@ class _MyHomePageState extends State<MyHomePage> {
     void _signin(String email, String password) async {
       try {
         auth.signInWithEmailAndPassword(email: email, password: password);
-        MaterialPageRoute<void>(builder: (context) => MapScreen());
-        Navigator.push(
-          context,
+        if (auth.authStateChanges() != null) {
+          Navigator.push(
+            context,
 
-          MaterialPageRoute<void>(builder: (context) => signUp()),
+            MaterialPageRoute<void>(builder: (context) => MapScreen()),
+          );
+        }
+      } catch (FirebaseAuthException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                const Text('Password must be at minimum of 8 characters.  '),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
         );
-      } catch (e) {
-        print(e);
       }
     }
 
@@ -176,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           context,
 
                           MaterialPageRoute<void>(
-                            builder: (context) => signUp(),
+                            builder: (context) => SignUp(),
                           ),
                         );
                       },

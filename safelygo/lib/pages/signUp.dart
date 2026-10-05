@@ -1,7 +1,86 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class signUp extends StatelessWidget {
-  const signUp({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirm = TextEditingController();
+
+  void _signUp(String email, String password) async {
+    try {
+      if ((confirm.text.compareTo(password) == 1)) {
+        print("working twin");
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                const Text('Passwords do not match.'),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      } else if ((password.length < 8)) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                const Text('Password must be at minimum of 8 characters.  '),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        auth.createUserWithEmailAndPassword(email: email, password: password);
+        print("working twin");
+      }
+    } catch (FirebaseAuthException) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => Dialog(
+          child: Column(
+            mainAxisSize: .min,
+            mainAxisAlignment: .center,
+            children: <Widget>[
+              const Text('This is a typical dialog.'),
+              const SizedBox(height: 15),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +119,7 @@ class signUp extends StatelessWidget {
                   label: Text('Email'),
                   border: OutlineInputBorder(),
                 ),
+                controller: email,
               ),
               SizedBox(height: 64),
               TextField(
@@ -48,6 +128,7 @@ class signUp extends StatelessWidget {
                   label: Text('Password'),
                   border: OutlineInputBorder(),
                 ),
+                controller: password,
               ),
               SizedBox(height: 64),
               TextField(
@@ -60,7 +141,7 @@ class signUp extends StatelessWidget {
               SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () {
-                  print("sign up button pressed");
+                  _signUp(email.text, password.text);
                 },
                 child: Text("Create Account"),
               ),
