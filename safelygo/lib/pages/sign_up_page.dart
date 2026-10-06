@@ -4,18 +4,38 @@ import 'package:flutter/material.dart';
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
   @override
-  _SignUpState createState() => _SignUpState();
+  SignUpState createState() => SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class SignUpState extends State<SignUp> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
 
-  void _signUp(String email, String password) async {
+  Future<void> _signUp(String email, String password) async {
     try {
-      if ((confirm.text.compareTo(password) == 1)) {
+      if (email == '') {
+        print("No Email");
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                const Text('Please enter an email.'),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      } else if ((confirm.text.compareTo(password) == 1)) {
         print("working twin");
         showDialog(
           context: context,
@@ -36,29 +56,12 @@ class _SignUpState extends State<SignUp> {
           ),
         );
       } else if ((password.length < 8)) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: <Widget>[
-                const Text('Password must be at minimum of 8 characters.  '),
-                const SizedBox(height: 4),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
+        Dialog(child: Column(children: [Text("nerd"), Text("sonic")]));
       } else {
         auth.createUserWithEmailAndPassword(email: email, password: password);
         print("working twin");
       }
-    } catch (FirebaseAuthException) {
+    } catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
@@ -66,13 +69,13 @@ class _SignUpState extends State<SignUp> {
             mainAxisSize: .min,
             mainAxisAlignment: .center,
             children: <Widget>[
-              const Text('This is a typical dialog.'),
-              const SizedBox(height: 15),
+              Text("$e"),
+              SizedBox(height: 15),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Close'),
+                child: Text('Close'),
               ),
             ],
           ),

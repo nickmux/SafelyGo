@@ -1,13 +1,9 @@
-import 'dart:async';
-
-import 'package:SafelyGo/Components/Card.dart';
-import 'package:SafelyGo/pages/reportListPage.dart';
-import 'package:SafelyGo/pages/signUp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safely_go/Components/report_widget.dart';
+import 'package:safely_go/pages/report_list_page.dart';
+import 'package:safely_go/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'reportCreationPage.dart';
+import 'report_creation_page.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -40,7 +36,6 @@ class Home extends State<MapScreen> with AutomaticKeepAliveClientMixin {
         onTap: (index) {
           setState(() {
             selectedIndex = index;
-            print('works $index , $selectedIndex');
           });
         },
         currentIndex: selectedIndex,

@@ -11,7 +11,7 @@ class ReportCard extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.safety_check),
             title: Text("Jerry"),
-            subtitle: Text("Phoenix keeps calling his creations bimbos"),
+            subtitle: Text("Phoenix keeps calling his creations Jerrys"),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

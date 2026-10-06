@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ReportCreationLive extends StatefulWidget {
-  @override
   const ReportCreationLive({super.key});
 
   @override

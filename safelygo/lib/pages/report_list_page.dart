@@ -1,4 +1,4 @@
-import 'package:SafelyGo/Components/Card.dart';
+import 'package:safely_go/Components/report_widget.dart';
 import 'package:flutter/material.dart';
 
 class ReportsPage extends StatelessWidget {

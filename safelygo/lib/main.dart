@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/signUp.dart';
-import 'pages/mainHub.dart';
+import 'pages/sign_up_page.dart';
+import 'pages/main_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
@@ -85,8 +85,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int _counter = 0;
-
   void gurl() {
     print("This is a test button");
   }
@@ -99,10 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final TextEditingController email = TextEditingController();
     final TextEditingController password = TextEditingController();
 
-    void _signin(String email, String password) async {
+    void signin(String email, String password) async {
       try {
         auth.signInWithEmailAndPassword(email: email, password: password);
-        if (auth.authStateChanges() != null) {
+        if (auth.authStateChanges() == true) {
           Navigator.push(
             context,
 
@@ -202,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     FilledButton(
                       onPressed: () {
-                        _signin(email.text, password.text);
+                        signin(email.text, password.text);
                       },
                       style: ButtonStyle(visualDensity: VisualDensity.compact),
                       child: Text("Login"),
