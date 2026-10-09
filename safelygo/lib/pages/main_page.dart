@@ -17,7 +17,7 @@ class Home extends State<MapScreen> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> pages = [ReportsPage(), SignUp(), ReportCard(), ReportsPage()];
+    List<Widget> pages = [ReportsPage(), SignUp(), ReportsPage()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to

@@ -38,7 +38,7 @@ class ReportCreationPage extends State<ReportCreationLive> {
                 label: Text("Description"),
                 border: OutlineInputBorder(),
               ),
-            ),
+            ), 
             SizedBox(height: 128),
 
             Row(

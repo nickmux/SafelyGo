@@ -61,13 +61,13 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
       ),
-      home: const MyHomePage(title: 'Login Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -78,8 +78,6 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -89,33 +87,32 @@ class _MyHomePageState extends State<MyHomePage> {
     print("This is a test button");
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final TextEditingController email = TextEditingController();
-    final TextEditingController password = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
-    void signin(String email, String password) async {
-      try {
-        auth.signInWithEmailAndPassword(email: email, password: password);
-        if (auth.authStateChanges() == true) {
+  Future<void> signin(String email, String password) async {
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      auth.authStateChanges().listen((user) {
+        if (user != null) {
           Navigator.push(
             context,
 
             MaterialPageRoute<void>(builder: (context) => MapScreen()),
           );
         }
-      } catch (FirebaseAuthException) {
+      });
+    } on FirebaseAuthException catch (e) {
+      (() {
         showDialog(
           context: context,
           builder: (BuildContext context) => Dialog(
             child: Column(
               mainAxisAlignment: .center,
               children: <Widget>[
-                const Text('Password must be at minimum of 8 characters.  '),
-                const SizedBox(height: 4),
+                Text("$e"),
+                SizedBox(height: 4),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -126,8 +123,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         );
-      }
+      });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
 
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
@@ -142,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("SafelyGo"),
       ),
       body: Padding(
         padding: EdgeInsetsGeometry.directional(

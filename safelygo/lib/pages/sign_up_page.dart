@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:safely_go/pages/main_page.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -35,8 +36,8 @@ class SignUpState extends State<SignUp> {
             ),
           ),
         );
-      } else if ((confirm.text.compareTo(password) == 1)) {
-        print("working twin");
+      } else if ((confirm.text.compareTo(password) == 0)) {
+        print("Error: Passwords no matchy");
         showDialog(
           context: context,
           builder: (BuildContext context) => Dialog(
@@ -56,12 +57,39 @@ class SignUpState extends State<SignUp> {
           ),
         );
       } else if ((password.length < 8)) {
-        Dialog(child: Column(children: [Text("nerd"), Text("sonic")]));
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                const Text('Passwords must be 8 Characters or more.'),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
       } else {
         auth.createUserWithEmailAndPassword(email: email, password: password);
         print("working twin");
+
+        auth.authStateChanges().listen((user) {
+          if (user != null) {
+            Navigator.push(
+              context,
+
+              MaterialPageRoute<void>(builder: (context) => MapScreen()),
+            );
+          }
+        });
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
