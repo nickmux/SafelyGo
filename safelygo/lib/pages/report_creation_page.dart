@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ReportCreationLive extends StatefulWidget {
@@ -8,8 +9,24 @@ class ReportCreationLive extends StatefulWidget {
 }
 
 class ReportCreationPage extends State<ReportCreationLive> {
-  final jerry = ["Not that Serious", "Pressing", "Emergency"];
+  final type = ["Not that Serious", "Pressing", "Emergency"];
   String? value = "Not that Serious";
+
+  Future<void> saveReport(String title, String description, String type) async {
+    CollectionReference reports = FirebaseFirestore.instance.collection(
+      'reports',
+    );
+
+    // Firestore creates the ID when saving
+    DocumentReference docRef = await reports.add({
+      'title': title,
+      'description': description,
+      'type': type,
+    });
+
+    print("Document created with ID: ${docRef.id}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +55,14 @@ class ReportCreationPage extends State<ReportCreationLive> {
                 label: Text("Description"),
                 border: OutlineInputBorder(),
               ),
-            ), 
+            ),
             SizedBox(height: 128),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownButton<String>(
-                  items: jerry.map(buildOptions).toList(),
+                  items: type.map(buildOptions).toList(),
                   value: value,
                   onChanged: (String? value) {
                     setState(() {
