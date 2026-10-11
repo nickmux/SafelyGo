@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Navigator.push(
             context,
 
-            MaterialPageRoute<void>(builder: (context) => MapScreen()),
+            MaterialPageRoute<void>(builder: (context) => Hub()),
           );
         }
       });

@@ -1,23 +1,24 @@
 import 'package:safely_go/Components/report_widget.dart';
+import 'package:safely_go/pages/map_page.dart';
 import 'package:safely_go/pages/report_list_page.dart';
 import 'package:safely_go/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 import 'report_creation_page.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+class Hub extends StatefulWidget {
+  const Hub({super.key});
 
   @override
-  Home createState() => Home();
+  HubState createState() => HubState();
 }
 
-class Home extends State<MapScreen> with AutomaticKeepAliveClientMixin {
+class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> pages = [ReportsPage(), SignUp(), ReportsPage()];
+    List<Widget> pages = [ReportsPage(), MapPage(), ReportsPage()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to

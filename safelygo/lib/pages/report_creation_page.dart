@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ReportCreationLive extends StatefulWidget {
@@ -11,18 +12,21 @@ class ReportCreationLive extends StatefulWidget {
 class ReportCreationPage extends State<ReportCreationLive> {
   final type = ["Not that Serious", "Pressing", "Emergency"];
   String? value = "Not that Serious";
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController();
 
   Future<void> saveReport(String title, String description, String type) async {
     CollectionReference reports = FirebaseFirestore.instance.collection(
       'reports',
-    );
+    ); //Gets a reference to the reports collection in firebase.
 
     // Firestore creates the ID when saving
     DocumentReference docRef = await reports.add({
       'title': title,
       'description': description,
       'type': type,
-    });
+      'from-user': FirebaseAuth.instance.currentUser?.uid,
+    }); //adds the report to the database when ready
 
     print("Document created with ID: ${docRef.id}");
   }
@@ -46,6 +50,7 @@ class ReportCreationPage extends State<ReportCreationLive> {
                 label: Text("Title"),
                 border: OutlineInputBorder(),
               ),
+              controller: title,
             ),
             SizedBox(height: 32),
             TextFormField(
@@ -55,6 +60,7 @@ class ReportCreationPage extends State<ReportCreationLive> {
                 label: Text("Description"),
                 border: OutlineInputBorder(),
               ),
+              controller: description,
             ),
             SizedBox(height: 128),
 
@@ -73,7 +79,10 @@ class ReportCreationPage extends State<ReportCreationLive> {
                 ),
 
                 OutlinedButton(
-                  onPressed: null,
+                  onPressed: () {
+                    saveReport(title.text, description.text, value!);
+                    Navigator.pop(context);
+                  },
                   child: Text("Submit report", style: TextStyle(fontSize: 16)),
                 ),
               ],

@@ -84,7 +84,7 @@ class SignUpState extends State<SignUp> {
             Navigator.push(
               context,
 
-              MaterialPageRoute<void>(builder: (context) => MapScreen()),
+              MaterialPageRoute<void>(builder: (context) => Hub()),
             );
           }
         });
