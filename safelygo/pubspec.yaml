@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter_map:
   cloud_firestore:
+  geolocator: 
   flutter:
     sdk: flutter
 

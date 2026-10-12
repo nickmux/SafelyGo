@@ -1,7 +1,5 @@
-import 'package:safely_go/Components/report_widget.dart';
 import 'package:safely_go/pages/map_page.dart';
 import 'package:safely_go/pages/report_list_page.dart';
-import 'package:safely_go/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 import 'report_creation_page.dart';
