@@ -29,7 +29,7 @@ class SignUpState extends State<SignUp> {
   Future<void> _signUp(String email, String password) async {
     try {
       if (email == '') {
-        print("No Email");
+        print("No Email"); 
         showDialog(
           context: context,
           builder: (BuildContext context) => Dialog(

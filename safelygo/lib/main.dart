@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
 
                           MaterialPageRoute<void>(

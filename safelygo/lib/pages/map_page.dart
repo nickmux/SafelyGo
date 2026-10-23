@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -14,6 +16,7 @@ class MapPageState extends State<MapPage> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
+
   Future<Position> getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -48,16 +51,38 @@ class MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     getLocation();
     return Scaffold(
-      body: FlutterMap(
-        options: MapOptions(initialZoom: 9.2, maxZoom: 18.0, minZoom: 3.0),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: "com.bpa.safelygo",
-            minZoom: 3.0,
-            maxZoom: 18.0,
-          ),
-        ],
+      body: StreamBuilder(
+        stream: getLocation().asStream(),
+        builder: (context, snapshots) {
+          if (!snapshots.hasData) {
+            return Column(
+              children: [
+                SpinKitRing(color: Colors.accents.first),
+                Text("Loading"),
+              ],
+            );
+          }
+          double longitude = snapshots.data!.longitude;
+          double latitude = snapshots.data!.latitude;
+
+          return FlutterMap(
+            options: MapOptions(
+              initialZoom: 9.2,
+              maxZoom: 18.0,
+              minZoom: 3.0,
+              initialCenter: LatLng(latitude, longitude),
+            ),
+            children: [
+              TileLayer(
+                urlTemplate:
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: "com.bpa.safelygo",
+                minZoom: 3.0,
+                maxZoom: 18.0,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

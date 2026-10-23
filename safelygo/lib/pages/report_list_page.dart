@@ -1,6 +1,7 @@
 import 'package:safely_go/Components/report_widget.dart';
 import 'package:flutter/material.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:safely_go/pages/report_creation_page.dart';
 
 class ReportsPage extends StatelessWidget {
   const ReportsPage({super.key});
@@ -30,6 +31,7 @@ class ReportsPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshots.data?.docs.length,
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) =>
                       ReportCard(documentSnapshot: snapshots.data!.docs[index]),
                 );
@@ -37,6 +39,15 @@ class ReportsPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(builder: (context) => ReportCreationLive()),
+          );
+        },
       ),
     );
   }

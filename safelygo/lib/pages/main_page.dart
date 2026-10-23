@@ -48,19 +48,11 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(
             icon: Icon(Icons.abc_outlined),
-            label: "nerd",
+            label: "Find People",
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => ReportCreationLive()),
-          );
-        },
-      ),
+
       body: pages[selectedIndex],
     );
   }
