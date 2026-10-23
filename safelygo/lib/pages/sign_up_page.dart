@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:safely_go/pages/main_page.dart';
@@ -13,6 +14,17 @@ class SignUpState extends State<SignUp> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
+
+  Future<void> saveUserInFireStore(String? uid) async {
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      'users',
+    ); //Gets a reference to the reports collection in firebase.
+
+    // Firestore creates the ID when saving
+    DocumentReference docRef = await users.add({
+      "uid": uid,
+    }); //adds the report to the database when ready
+  }
 
   Future<void> _signUp(String email, String password) async {
     try {
@@ -86,6 +98,9 @@ class SignUpState extends State<SignUp> {
 
               MaterialPageRoute<void>(builder: (context) => Hub()),
             );
+            if (auth.currentUser?.uid != null) {
+              saveUserInFireStore(auth.currentUser?.uid);
+            }
           }
         });
       }
