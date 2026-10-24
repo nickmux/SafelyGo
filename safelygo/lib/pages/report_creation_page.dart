@@ -25,6 +25,7 @@ class ReportCreationPage extends State<ReportCreationLive> {
       'title': title,
       'description': description,
       'type': type,
+      'status': "Pending",
       'from-user': FirebaseAuth.instance.currentUser?.uid,
     }); //adds the report to the database when ready
 

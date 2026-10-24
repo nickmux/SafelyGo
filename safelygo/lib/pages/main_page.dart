@@ -1,8 +1,7 @@
+import 'package:safely_go/pages/emergencyContactPage.dart';
 import 'package:safely_go/pages/map_page.dart';
 import 'package:safely_go/pages/report_list_page.dart';
 import 'package:flutter/material.dart';
-
-import 'report_creation_page.dart';
 
 class Hub extends StatefulWidget {
   const Hub({super.key});
@@ -16,7 +15,7 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> pages = [ReportsPage(), MapPage(), ReportsPage()];
+    List<Widget> pages = [ReportsPage(), MapPage(), EmergencyContactDir()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -45,10 +44,13 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
             icon: Icon(Icons.compare_arrows_sharp),
             label: "Map",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Emergency Contact Directory",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.abc_outlined),
-            label: "Find People",
+            label: "Find Trusted People",
           ),
         ],
       ),

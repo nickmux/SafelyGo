@@ -14,7 +14,7 @@ class SignUpState extends State<SignUp> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   Future<void> saveUserInFireStore(String? uid) async {
     CollectionReference users = FirebaseFirestore.instance.collection(
       'users',
@@ -29,7 +29,7 @@ class SignUpState extends State<SignUp> {
   Future<void> _signUp(String email, String password) async {
     try {
       if (email == '') {
-        print("No Email"); 
+        print("No Email");
         showDialog(
           context: context,
           builder: (BuildContext context) => Dialog(
@@ -135,64 +135,59 @@ class SignUpState extends State<SignUp> {
         padding: EdgeInsetsGeometry.all(16),
         child: Card(
           margin: EdgeInsetsGeometry.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Sign Up for SafelyGo',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight(400)),
-              ),
-              SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("First Name"),
-                  label: Text('First Name'),
-                  border: OutlineInputBorder(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Sign Up for SafelyGo',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight(400)),
                 ),
-              ),
-              SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("Last Name"),
-                  label: Text('Last Name'),
-                  border: OutlineInputBorder(),
+                SizedBox(height: 64),
+                TextField(
+                  decoration: InputDecoration(
+                    hint: Text("First Name"),
+                    label: Text('First Name'),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("Email"),
-                  label: Text('Email'),
-                  border: OutlineInputBorder(),
+                SizedBox(height: 64),
+                TextField(
+                  decoration: InputDecoration(
+                    hint: Text("Email"),
+                    label: Text('Email'),
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: email,
                 ),
-                controller: email,
-              ),
-              SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("Password"),
-                  label: Text('Password'),
-                  border: OutlineInputBorder(),
+                SizedBox(height: 64),
+                TextField(
+                  decoration: InputDecoration(
+                    hint: Text("Password"),
+                    label: Text('Password'),
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: password,
                 ),
-                controller: password,
-              ),
-              SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("Comfirm Password"),
-                  label: Text('Comfirm Password'),
-                  border: OutlineInputBorder(),
+                SizedBox(height: 64),
+                TextField(
+                  decoration: InputDecoration(
+                    hint: Text("Comfirm Password"),
+                    label: Text('Comfirm Password'),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 8),
-              OutlinedButton(
-                onPressed: () {
-                  _signUp(email.text, password.text);
-                },
-                child: Text("Create Account"),
-              ),
-              Spacer(),
-            ],
+                SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed: () {
+                    _signUp(email.text, password.text);
+                  },
+                  child: Text("Create Account"),
+                ),
+                Spacer(),
+              ],
+            ),
           ),
         ),
       ),

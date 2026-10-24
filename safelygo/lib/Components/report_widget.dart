@@ -6,27 +6,6 @@ class ReportCard extends StatelessWidget {
 
   final DocumentSnapshot documentSnapshot;
 
-  Future<void> showStatus() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => Dialog(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: <Widget>[
-            const Text('Please enter an email.'),
-            const SizedBox(height: 4),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -36,14 +15,58 @@ class ReportCard extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.safety_check),
             title: Text(documentSnapshot['title']),
-            subtitle: Text(documentSnapshot['description'].toString()),
+            subtitle: Text(documentSnapshot['description']),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
                 onPressed: () {
-                  showStatus();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => Dialog(
+                      child: Padding(
+                        padding: const .all(64.0),
+                        child: Column(
+                          mainAxisSize: .min,
+                          mainAxisAlignment: .center,
+                          children: <Widget>[
+                            Text(
+                              documentSnapshot['title'],
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight(900),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              "Description:",
+                              style: TextStyle(fontWeight: FontWeight(900)),
+                            ),
+                            const SizedBox(height: 15),
+                            Expanded(
+                              flex: 1,
+                              child: Text(documentSnapshot['description']),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              "Status:",
+                              style: TextStyle(fontWeight: FontWeight(900)),
+                            ),
+                            const SizedBox(height: 15),
+                            Text("Status:" + documentSnapshot['status']),
+                            const SizedBox(height: 15),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Close'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Text("Status"),
               ),

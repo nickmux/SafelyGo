@@ -80,6 +80,14 @@ class MapPageState extends State<MapPage> {
                 minZoom: 3.0,
                 maxZoom: 18.0,
               ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: LatLng(latitude, longitude),
+                    child: Icon(Icons.person_2_rounded),
+                  ),
+                ],
+              ),
             ],
           );
         },
