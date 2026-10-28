@@ -18,6 +18,7 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
     List<Widget> pages = [ReportsPage(), MapPage(), EmergencyContactPage()];
     return Scaffold(
       appBar: AppBar(
+        actions: [OutlinedButton(onPressed: null, child: Icon(Icons.house))],
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
