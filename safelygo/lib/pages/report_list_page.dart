@@ -41,7 +41,10 @@ class ReportsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     if (snapshots.data!.docs[index].exists) {
                       DocumentSnapshot doc = snapshots.data!.docs[index];
-                      return ReportCard(report: ReportModel.fromDocument(doc));
+                      ReportModel report = ReportModel.fromDocument(doc);
+                      if (report.fromUser == auth.currentUser?.uid) {
+                        return ReportCard(report: report);
+                      }
                     }
                   },
                 );

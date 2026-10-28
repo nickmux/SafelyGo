@@ -145,7 +145,7 @@ class SignUpState extends State<SignUp> {
                         return "Must Contain an Uppercase Letter";
                       }
                       if (!RegExp(r'[0-9]').hasMatch(value)) {
-                        return "Must Contain an Uppercase Letter";
+                        return "Must contain a number.";
                       }
                       if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(value)) {
                         return 'Must contain at least one special character (e.g., @, #, !)';
