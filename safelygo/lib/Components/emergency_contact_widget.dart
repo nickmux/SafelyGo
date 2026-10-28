@@ -2,10 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safely_go/Models/ReportModel.dart';
 
-class ReportCard extends StatelessWidget {
-  const ReportCard({super.key, required this.report});
+class EmergencyContactWidget extends StatelessWidget {
+  const EmergencyContactWidget({
+    super.key,
+    required this.number,
+    required this.name,
+  });
 
-  final ReportModel report;
+  final String number;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +20,8 @@ class ReportCard extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.phone),
-            title: Text(report.title),
-            subtitle: Text(report.description),
+            title: Text(name),
+            subtitle: Text(number),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

@@ -15,7 +15,7 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> pages = [ReportsPage(), MapPage(), EmergencyContactDir()];
+    List<Widget> pages = [ReportsPage(), MapPage(), EmergencyContactPage()];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
