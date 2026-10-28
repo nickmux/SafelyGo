@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   Future<void> signin(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
@@ -154,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
           start: 30,
           end: 30,
         ),
-        child: Card(
+        child: Form(
+          key: _formKey,
           child: Column(
             children: [
               SizedBox(height: 64),
@@ -164,24 +165,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 64),
-              TextField(
-                decoration: InputDecoration(
-                  hint: Text("Email"),
-                  label: Text("Email"),
-                  border: OutlineInputBorder(),
+              AutofillGroup(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hint: Text("Email"),
+                    label: Text("Email"),
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: email,
                 ),
-                controller: email,
               ),
               SizedBox(height: 64),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hint: Text("Password"),
-                  label: Text("Password"),
+              AutofillGroup(
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hint: Text("Password"),
+                    label: Text("Password"),
 
-                  border: OutlineInputBorder(),
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: password,
                 ),
-                controller: password,
               ),
               SizedBox(height: 64),
               Center(
@@ -201,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: ButtonStyle(visualDensity: VisualDensity.compact),
                       child: Text("Sign Up"),
                     ),
+
                     FilledButton(
                       onPressed: () {
                         signin(email.text, password.text);

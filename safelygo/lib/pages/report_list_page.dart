@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safely_go/Components/report_widget.dart';
 import 'package:flutter/material.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:safely_go/Models/ReportModel.dart';
 import 'package:safely_go/pages/report_creation_page.dart';
 
 class ReportsPage extends StatelessWidget {
@@ -37,8 +38,12 @@ class ReportsPage extends StatelessWidget {
                   itemCount: snapshots.data?.docs.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      ReportCard(documentSnapshot: snapshots.data!.docs[index]),
+                  itemBuilder: (context, index) {
+                    if (snapshots.data!.docs[index].exists) {
+                      DocumentSnapshot doc = snapshots.data!.docs[index];
+                      return ReportCard(report: ReportModel.fromDocument(doc));
+                    }
+                  },
                 );
               },
             ),

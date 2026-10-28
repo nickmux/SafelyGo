@@ -17,27 +17,10 @@ class EmergencyContactDirState extends State<EmergencyContactDir> {
         child: Column(
           children: [
             Text(
-              "Report a Concern",
+              "Emergency Contact dir",
               style: TextStyle(fontSize: 32, fontWeight: FontWeight(300)),
             ),
             SizedBox(height: 32),
-            TextField(
-              decoration: InputDecoration(
-                hint: Text("Title"),
-                label: Text("Title"),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 32),
-            TextFormField(
-              maxLines: 10,
-              decoration: InputDecoration(
-                hint: Text("Description"),
-                label: Text("Description"),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 128),
           ],
         ),
       ),

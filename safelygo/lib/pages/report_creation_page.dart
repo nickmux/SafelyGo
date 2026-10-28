@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:safely_go/Models/ReportModel.dart';
 
 class ReportCreationLive extends StatefulWidget {
   const ReportCreationLive({super.key});
@@ -15,19 +16,14 @@ class ReportCreationPage extends State<ReportCreationLive> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
 
-  Future<void> saveReport(String title, String description, String type) async {
+  Future<void> saveReport(ReportModel report) async {
     CollectionReference reports = FirebaseFirestore.instance.collection(
       'reports',
     ); //Gets a reference to the reports collection in firebase.
-
     // Firestore creates the ID when saving
-    DocumentReference docRef = await reports.add({
-      'title': title,
-      'description': description,
-      'type': type,
-      'status': "Pending",
-      'from-user': FirebaseAuth.instance.currentUser?.uid,
-    }); //adds the report to the database when ready
+    DocumentReference docRef = await reports.add(
+      report.toDocument(),
+    ); //adds the report to the database when ready
 
     print("Document created with ID: ${docRef.id}");
   }
@@ -81,7 +77,14 @@ class ReportCreationPage extends State<ReportCreationLive> {
 
                 OutlinedButton(
                   onPressed: () {
-                    saveReport(title.text, description.text, value!);
+                    ReportModel newReport = ReportModel(
+                      title: title.text,
+                      description: description.text,
+                      type: value!,
+                      fromUser: FirebaseAuth.instance.currentUser!.uid,
+                      dateCreated: DateTime.now(),
+                    );
+                    saveReport(newReport);
                     Navigator.pop(context);
                   },
                   child: Text("Submit report", style: TextStyle(fontSize: 16)),

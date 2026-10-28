@@ -49,7 +49,7 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
             label: "Emergency Contact Directory",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.abc_outlined),
+            icon: Icon(Icons.person_2),
             label: "Find Trusted People",
           ),
         ],

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:safely_go/Models/ReportModel.dart';
 
 class ReportCard extends StatelessWidget {
-  const ReportCard({super.key, required this.documentSnapshot});
+  const ReportCard({super.key, required this.report});
 
-  final DocumentSnapshot documentSnapshot;
+  final ReportModel report;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,8 @@ class ReportCard extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.safety_check),
-            title: Text(documentSnapshot['title']),
-            subtitle: Text(documentSnapshot['description']),
+            title: Text(report.title),
+            subtitle: Text(report.description),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -32,7 +33,7 @@ class ReportCard extends StatelessWidget {
                           mainAxisAlignment: .center,
                           children: <Widget>[
                             Text(
-                              documentSnapshot['title'],
+                              report.title,
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight(900),
@@ -44,17 +45,14 @@ class ReportCard extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight(900)),
                             ),
                             const SizedBox(height: 15),
-                            Expanded(
-                              flex: 1,
-                              child: Text(documentSnapshot['description']),
-                            ),
+                            Expanded(flex: 1, child: Text(report.description)),
                             const SizedBox(height: 15),
                             Text(
                               "Status:",
                               style: TextStyle(fontWeight: FontWeight(900)),
                             ),
                             const SizedBox(height: 15),
-                            Text("Status:" + documentSnapshot['status']),
+                            Text("Status:" + report.status),
                             const SizedBox(height: 15),
                             TextButton(
                               onPressed: () {

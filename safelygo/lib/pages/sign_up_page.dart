@@ -12,6 +12,7 @@ class SignUp extends StatefulWidget {
 class SignUpState extends State<SignUp> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController email = TextEditingController();
+  final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -26,70 +27,12 @@ class SignUpState extends State<SignUp> {
     }); //adds the report to the database when ready
   }
 
-  Future<void> _signUp(String email, String password) async {
-    try {
-      if (email == '') {
-        print("No Email");
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: <Widget>[
-                const Text('Please enter an email.'),
-                const SizedBox(height: 4),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else if ((confirm.text.compareTo(password) == 0)) {
-        print("Error: Passwords no matchy");
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: <Widget>[
-                const Text('Passwords do not match.'),
-                const SizedBox(height: 4),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else if ((password.length < 8)) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: <Widget>[
-                const Text('Passwords must be 8 Characters or more.'),
-                const SizedBox(height: 4),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else {
+  Future<void> _signUp(String email, String password, String username) async {
+    if (_formKey.currentState!.validate()) {
+      try {
         auth.createUserWithEmailAndPassword(email: email, password: password);
-        print("working twin");
+        auth.currentUser?.updateDisplayName(username);
+        print("User logged in with: $email with the username $username");
 
         auth.authStateChanges().listen((user) {
           if (user != null) {
@@ -103,27 +46,29 @@ class SignUpState extends State<SignUp> {
             }
           }
         });
-      }
-    } on FirebaseAuthException catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => Dialog(
-          child: Column(
-            mainAxisSize: .min,
-            mainAxisAlignment: .center,
-            children: <Widget>[
-              Text("$e"),
-              SizedBox(height: 15),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Close'),
-              ),
-            ],
+      } on FirebaseAuthException catch (e) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Column(
+              mainAxisSize: .min,
+              mainAxisAlignment: .center,
+              children: <Widget>[
+                Text("$e"),
+                SizedBox(height: 15),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
+        );
+      }
+    } else {
+      print("Form invalid for one of the following displayed on screen");
     }
   }
 
@@ -145,43 +90,93 @@ class SignUpState extends State<SignUp> {
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight(400)),
                 ),
                 SizedBox(height: 64),
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
-                    hint: Text("First Name"),
-                    label: Text('First Name'),
+                    hint: Text("Username"),
+                    label: Text('Username'),
                     border: OutlineInputBorder(),
+                  ),
+                  controller: username,
+                  validator: (value) {
+                    if (value == "") {
+                      return "Please Enter a username";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 64),
+                AutofillGroup(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hint: Text("Email"),
+                      label: Text('Email'),
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: email,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email address';
+                      }
+                      final emailRegex = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      );
+
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(height: 64),
-                TextField(
-                  decoration: InputDecoration(
-                    hint: Text("Email"),
-                    label: Text('Email'),
-                    border: OutlineInputBorder(),
+                AutofillGroup(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hint: Text("Password"),
+                      label: Text('Password'),
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: password,
+                    validator: (value) {
+                      if (value!.length < 8) {
+                        return "Password is too short, Must be a minimum of 8 Characters";
+                      }
+                      if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                        return "Must Contain an Uppercase Letter";
+                      }
+                      if (!RegExp(r'[0-9]').hasMatch(value)) {
+                        return "Must Contain an Uppercase Letter";
+                      }
+                      if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                        return 'Must contain at least one special character (e.g., @, #, !)';
+                      }
+                      if (value.isEmpty) {
+                        return "Please enter a password.";
+                      }
+                      return null;
+                    },
                   ),
-                  controller: email,
                 ),
                 SizedBox(height: 64),
-                TextField(
-                  decoration: InputDecoration(
-                    hint: Text("Password"),
-                    label: Text('Password'),
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: password,
-                ),
-                SizedBox(height: 64),
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                     hint: Text("Comfirm Password"),
                     label: Text('Comfirm Password'),
                     border: OutlineInputBorder(),
                   ),
+                  validator: (value) {
+                    if (value != password.text) {
+                      return "Passwords do not match";
+                    }
+                    if (value!.isEmpty) {
+                      return "Please confirm your password.";
+                    }
+                  },
                 ),
                 SizedBox(height: 8),
                 OutlinedButton(
                   onPressed: () {
-                    _signUp(email.text, password.text);
+                    _signUp(email.text, password.text, username.text);
                   },
                   child: Text("Create Account"),
                 ),
