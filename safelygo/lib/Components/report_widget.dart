@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safely_go/Models/ReportModel.dart';
+import 'package:safely_go/pages/report_info_page.dart';
 
 class ReportCard extends StatelessWidget {
   const ReportCard({super.key, required this.report});
@@ -23,7 +24,12 @@ class ReportCard extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  null;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (context) => ReportInfo(report: report),
+                    ),
+                  );
                 },
                 child: Text("Status"),
               ),
