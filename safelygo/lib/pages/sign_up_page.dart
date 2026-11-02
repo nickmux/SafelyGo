@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:safely_go/Models/UserModel.dart';
+import 'package:safely_go/pages/auth_gateway.dart';
 import 'package:safely_go/pages/main_page.dart';
 
 class SignUp extends StatefulWidget {
@@ -16,16 +18,9 @@ class SignUpState extends State<SignUp> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  Future<void> saveUserInFireStore(String? uid) async {
-    CollectionReference users = FirebaseFirestore.instance.collection(
-      'users',
-    ); //Gets a reference to the reports collection in firebase.
-
-    // Firestore creates the ID when saving
-    DocumentReference docRef = await users.add({
-      "uid": uid,
-    }); //adds the report to the database when ready
-  }
+  CollectionReference userCollection = FirebaseFirestore.instance.collection(
+    'users',
+  ); //Gets a reference to the user collection in firebase.
 
   Future<void> _signUp(String email, String password, String username) async {
     if (_formKey.currentState!.validate()) {
@@ -36,15 +31,14 @@ class SignUpState extends State<SignUp> {
 
         auth.authStateChanges().listen((user) {
           if (user != null) {
-            Navigator.push(
-              context,
-
-              MaterialPageRoute<void>(builder: (context) => Hub()),
+            userCollection.add(
+              UserModel(name: username, uid: auth.currentUser!.uid),
             );
-            if (auth.currentUser?.uid != null) {
-              saveUserInFireStore(auth.currentUser?.uid);
-            }
           }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AuthGateway()),
+          );
         });
       } on FirebaseAuthException catch (e) {
         showDialog(
@@ -66,6 +60,8 @@ class SignUpState extends State<SignUp> {
             ),
           ),
         );
+      } on FirebaseException catch (e) {
+        print("cry:" + e.message!);
       }
     } else {
       print("Form invalid for one of the following displayed on screen");

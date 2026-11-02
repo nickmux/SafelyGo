@@ -39,13 +39,9 @@ class ReportsPage extends StatelessWidget {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    if (snapshots.data!.docs[index].exists) {
-                      DocumentSnapshot doc = snapshots.data!.docs[index];
-                      ReportModel report = ReportModel.fromDocument(doc);
-                      if (report.fromUser == auth.currentUser?.uid) {
-                        return ReportCard(report: report);
-                      }
-                    }
+                    DocumentSnapshot doc = snapshots.data!.docs[index];
+                    ReportModel report = ReportModel.fromDocument(doc);
+                    return ReportCard(report: report);
                   },
                 );
               },

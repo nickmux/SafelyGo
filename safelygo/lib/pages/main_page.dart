@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safely_go/pages/emergencyContactPage.dart';
 import 'package:safely_go/pages/map_page.dart';
 import 'package:safely_go/pages/report_list_page.dart';
@@ -12,6 +13,7 @@ class Hub extends StatefulWidget {
 
 class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
   int selectedIndex = 0;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     super.build(context);

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -45,6 +46,13 @@ class MapPageState extends State<MapPage> {
     return await Geolocator.getCurrentPosition(
       locationSettings: locationSettings,
     );
+  }
+
+  Future<void> getTrustedUserLocation() async {
+    final CollectionReference users = FirebaseFirestore.instance.collection(
+      "users",
+    );
+    return null;
   }
 
   @override
