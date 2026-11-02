@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:safely_go/pages/auth_gateway.dart';
+import 'package:safely_go/main.dart';
 import 'package:safely_go/pages/main_page.dart';
 import 'package:safely_go/pages/sign_up_page.dart';
 

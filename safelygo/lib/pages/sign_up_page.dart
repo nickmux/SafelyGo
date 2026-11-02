@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:safely_go/Models/UserModel.dart';
-import 'package:safely_go/pages/auth_gateway.dart';
+import 'package:safely_go/main.dart';
 import 'package:safely_go/pages/main_page.dart';
 
 class SignUp extends StatefulWidget {
@@ -18,9 +18,18 @@ class SignUpState extends State<SignUp> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirm = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  CollectionReference userCollection = FirebaseFirestore.instance.collection(
-    'users',
-  ); //Gets a reference to the user collection in firebase.
+
+  Future<void> addUserToDatabase(UserModel user) async {
+    CollectionReference reports = FirebaseFirestore.instance.collection(
+      'users',
+    ); //Gets a reference to the reports collection in firebase.
+    //ID based off user uid
+    DocumentReference docRef = await reports.add(
+      user.toDocument(),
+    ); //adds the report to the database when ready
+
+    print("Document created with ID: ${docRef.id}");
+  }
 
   Future<void> _signUp(String email, String password, String username) async {
     if (_formKey.currentState!.validate()) {
@@ -29,17 +38,13 @@ class SignUpState extends State<SignUp> {
         auth.currentUser?.updateDisplayName(username);
         print("User logged in with: $email with the username $username");
 
-        auth.authStateChanges().listen((user) {
-          if (user != null) {
-            userCollection.add(
-              UserModel(name: username, uid: auth.currentUser!.uid),
-            );
-          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AuthGateway()),
-          );
-        });
+        addUserToDatabase(
+          UserModel(name: username, uid: auth.currentUser!.uid),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AuthGateway()),
+        );
       } on FirebaseAuthException catch (e) {
         showDialog(
           context: context,
