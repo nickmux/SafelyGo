@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,6 +18,12 @@ class MapPageState extends State<MapPage> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
+
+  Future<void> updateUserGeoLocation(String userID, GeoPoint location) async {
+    FirebaseFirestore.instance.collection("users").doc().update({
+      "Location": location,
+    });
+  }
 
   Future<Position> getLocation() async {
     bool serviceEnabled;
@@ -72,7 +79,7 @@ class MapPageState extends State<MapPage> {
           }
           double longitude = snapshots.data!.longitude;
           double latitude = snapshots.data!.latitude;
-
+          
           return FlutterMap(
             options: MapOptions(
               initialZoom: 9.2,

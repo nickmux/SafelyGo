@@ -20,12 +20,14 @@ class SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   Future<void> addUserToDatabase(UserModel user) async {
-    CollectionReference reports = FirebaseFirestore.instance.collection(
+    CollectionReference users = FirebaseFirestore.instance.collection(
       'users',
     ); //Gets a reference to the reports collection in firebase.
     //ID based off user uid
-    DocumentReference docRef = await reports.add(
-      user.toDocument(),
+    DocumentReference docRef = users.doc(auth.currentUser!.uid);
+
+    await docRef.set(
+      users.add(user.toDocument()),
     ); //adds the report to the database when ready
 
     print("Document created with ID: ${docRef.id}");
@@ -38,13 +40,17 @@ class SignUpState extends State<SignUp> {
         auth.currentUser?.updateDisplayName(username);
         print("User logged in with: $email with the username $username");
 
-        addUserToDatabase(
-          UserModel(name: username, uid: auth.currentUser!.uid),
-        );
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AuthGateway()),
-        );
+        auth.authStateChanges().listen((user) {
+          if (user != null) {
+            addUserToDatabase(
+              UserModel(name: username, uid: auth.currentUser!.uid),
+            );
+          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AuthGateway()),
+          );
+        });
       } on FirebaseAuthException catch (e) {
         showDialog(
           context: context,

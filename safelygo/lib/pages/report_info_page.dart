@@ -10,33 +10,20 @@ class ReportInfo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(report.title)),
 
-      body: Center(
+      body: Padding(
+        padding: EdgeInsetsGeometry.all(32),
         child: Column(
           children: [
             Text(
               report.title,
-              style: TextStyle(fontWeight: FontWeight(900), fontSize: 64),
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight(300)),
             ),
             SizedBox(height: 32),
-            Text(
-              "Description:",
-              style: TextStyle(fontWeight: FontWeight(900), fontSize: 64),
-            ),
+            Card(child: Text(report.description)),
             SizedBox(height: 32),
-            Text(
-              report.description,
-              style: TextStyle(fontWeight: FontWeight(500), fontSize: 32),
-            ),
-            SizedBox(height: 32),
-            Text(
-              "Date Created:",
-              style: TextStyle(fontWeight: FontWeight(900), fontSize: 64),
-            ),
-            SizedBox(height: 32),
-            Text(report.dateCreated.toString()),
-            SizedBox(height: 32),
-            Text("SURRRE"),
-            Text(report.status),
+            Card(child: Text(report.dateCreated.toString())),
+            SizedBox(height: 128),
+            Card(child: Text(report.status)),
           ],
         ),
       ),
