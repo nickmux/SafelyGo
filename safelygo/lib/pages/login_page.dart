@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> signin(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
 
         MaterialPageRoute<void>(builder: (context) => AuthGateway()),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
 
                           MaterialPageRoute<void>(

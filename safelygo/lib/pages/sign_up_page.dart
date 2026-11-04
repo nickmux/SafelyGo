@@ -40,13 +40,11 @@ class SignUpState extends State<SignUp> {
         auth.currentUser?.updateDisplayName(username);
         print("User logged in with: $email with the username $username");
 
+        addUserToDatabase(
+          UserModel(name: username, uid: auth.currentUser!.uid),
+        );
         auth.authStateChanges().listen((user) {
-          if (user != null) {
-            addUserToDatabase(
-              UserModel(name: username, uid: auth.currentUser!.uid),
-            );
-          }
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => AuthGateway()),
           );

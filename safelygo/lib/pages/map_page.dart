@@ -20,9 +20,21 @@ class MapPageState extends State<MapPage> {
   );
 
   Future<void> updateUserGeoLocation(String userID, GeoPoint location) async {
-    FirebaseFirestore.instance.collection("users").doc().update({
-      "Location": location,
-    });
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //Gets the user in the firestore with the corresponding UID
+    QuerySnapshot snapshot = await db
+        .collection("users")
+        .where("id", isEqualTo: userID)
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      print("No document found with $userID,");
+      return;
+    }
+
+    final docID = snapshot.docs.first.id;
+
+    await db.collection("users").doc(docID).update({"Location": location});
   }
 
   Future<Position> getLocation() async {
@@ -79,7 +91,10 @@ class MapPageState extends State<MapPage> {
           }
           double longitude = snapshots.data!.longitude;
           double latitude = snapshots.data!.latitude;
-          
+          updateUserGeoLocation(
+            FirebaseAuth.instance.currentUser!.uid,
+            GeoPoint(latitude, longitude),
+          );
           return FlutterMap(
             options: MapOptions(
               initialZoom: 9.2,
