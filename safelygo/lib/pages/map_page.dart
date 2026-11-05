@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:safely_go/Models/UserModel.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -67,11 +68,52 @@ class MapPageState extends State<MapPage> {
     );
   }
 
-  Future<void> getTrustedUserLocation() async {
-    final CollectionReference users = FirebaseFirestore.instance.collection(
-      "users",
+  Future<List<Marker>> getTrustedUsersLocation(String userID) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    QuerySnapshot snapshot = await db
+        .collection("users")
+        .where("id", isEqualTo: userID)
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      print("No document found with $userID,");
+      return [];
+    }
+
+    UserModel user = UserModel.fromDocument(snapshot.docs.first);
+    List<Marker> markers = [];
+
+    Position currentUserPos = await getLocation();
+
+    markers.add(
+      Marker(
+        point: LatLng(user.location.latitude, user.location.longitude),
+        child: Icon(Icons.person_2_rounded),
+      ),
     );
-    return null;
+
+    for (String i in user.trustedUsers) {
+      QuerySnapshot trustedUser = await db
+          .collection("users")
+          .where("id", isEqualTo: i)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        print("No document found with $userID,");
+        continue;
+      }
+
+      UserModel user = UserModel.fromDocument(snapshot.docs.first);
+
+      markers.add(
+        Marker(
+          point: LatLng(user.location.latitude, user.location.longitude),
+          child: Icon(Icons.person_2_rounded),
+        ),
+      );
+    }
+
+    return markers;
   }
 
   @override
@@ -89,8 +131,7 @@ class MapPageState extends State<MapPage> {
               ],
             );
           }
-          double longitude = snapshots.data!.longitude;
-          double latitude = snapshots.data!.latitude;
+
           updateUserGeoLocation(
             FirebaseAuth.instance.currentUser!.uid,
             GeoPoint(latitude, longitude),
@@ -110,14 +151,7 @@ class MapPageState extends State<MapPage> {
                 minZoom: 3.0,
                 maxZoom: 18.0,
               ),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: LatLng(latitude, longitude),
-                    child: Icon(Icons.person_2_rounded),
-                  ),
-                ],
-              ),
+              MarkerLayer(markers: markers.asStream()),
             ],
           );
         },
