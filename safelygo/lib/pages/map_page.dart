@@ -68,6 +68,9 @@ class MapPageState extends State<MapPage> {
     );
   }
 
+  double longitude = 0;
+  double latitude = 0;
+
   Future<List<Marker>> getTrustedUsersLocation(String userID) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     QuerySnapshot snapshot = await db
@@ -85,9 +88,14 @@ class MapPageState extends State<MapPage> {
 
     Position currentUserPos = await getLocation();
 
+    longitude = currentUserPos.longitude;
+    latitude = currentUserPos.latitude;
+
+    print(currentUserPos);
+
     markers.add(
       Marker(
-        point: LatLng(user.location.latitude, user.location.longitude),
+        point: LatLng(currentUserPos.latitude, currentUserPos.longitude),
         child: Icon(Icons.person_2_rounded),
       ),
     );
@@ -118,10 +126,10 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    getLocation();
     return Scaffold(
       body: StreamBuilder(
-        stream: getLocation().asStream(),
+        stream: getTrustedUsersLocation(FirebaseAuth.instance.currentUser!.uid)
+            .asStream(),
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
             return Column(
@@ -132,10 +140,6 @@ class MapPageState extends State<MapPage> {
             );
           }
 
-          updateUserGeoLocation(
-            FirebaseAuth.instance.currentUser!.uid,
-            GeoPoint(latitude, longitude),
-          );
           return FlutterMap(
             options: MapOptions(
               initialZoom: 9.2,
@@ -151,7 +155,7 @@ class MapPageState extends State<MapPage> {
                 minZoom: 3.0,
                 maxZoom: 18.0,
               ),
-              MarkerLayer(markers: markers.asStream()),
+              MarkerLayer(markers: snapshots.data!),
             ],
           );
         },
