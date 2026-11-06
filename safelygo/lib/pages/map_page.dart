@@ -116,7 +116,6 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    getLocation();
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
