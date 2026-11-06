@@ -118,6 +118,10 @@ class SignUpState extends State<SignUp> {
                 SizedBox(height: 64),
                 AutofillGroup(
                   child: TextFormField(
+                    autofillHints: [
+                      AutofillHints.newUsername,
+                      AutofillHints.username,
+                    ],
                     decoration: InputDecoration(
                       hint: Text("Email"),
                       label: Text('Email'),
@@ -142,6 +146,10 @@ class SignUpState extends State<SignUp> {
                 SizedBox(height: 64),
                 AutofillGroup(
                   child: TextFormField(
+                    autofillHints: [
+                      AutofillHints.password,
+                      AutofillHints.newPassword,
+                    ],
                     obscureText: true,
                     decoration: InputDecoration(
                       hint: Text("Password"),

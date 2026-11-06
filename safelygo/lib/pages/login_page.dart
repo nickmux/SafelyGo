@@ -98,6 +98,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 64),
               AutofillGroup(
                 child: TextFormField(
+                  autofillHints: [
+                    AutofillHints.username,
+                    AutofillHints.newUsername,
+                  ],
                   decoration: InputDecoration(
                     hint: Text("Email"),
                     label: Text("Email"),
@@ -109,6 +113,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 64),
               AutofillGroup(
                 child: TextFormField(
+                  autofillHints: [
+                    AutofillHints.password,
+                    AutofillHints.newPassword,
+                  ],
                   obscureText: true,
                   decoration: InputDecoration(
                     hint: Text("Password"),
