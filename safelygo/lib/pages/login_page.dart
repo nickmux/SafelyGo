@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text("SafelyGo"),
       ),
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: EdgeInsetsGeometry.directional(
           bottom: 20,
@@ -127,6 +128,12 @@ class _LoginPageState extends State<LoginPage> {
                   controller: password,
                 ),
               ),
+              Row(
+                children: [
+                  TextButton(onPressed: null, child: Text("Forgot Password")),
+                ],
+              ),
+
               SizedBox(height: 64),
               Center(
                 child: Row(
