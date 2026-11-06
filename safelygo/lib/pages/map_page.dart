@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:safely_go/Models/UserModel.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -18,6 +19,24 @@ class MapPageState extends State<MapPage> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
+  final String _currentUser = FirebaseAuth.instance.currentUser!.uid;
+  /**Future<List> getAllTrustedUsers() async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //Gets the user in the firestore with the corresponding UID
+    QuerySnapshot snapshot = await db
+        .collection("users")
+        .where("id", isEqualTo: _currentUser)
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      print("No document found with $_currentUser,");
+      return [];
+    }
+
+    final docID = snapshot.docs.first.id;
+
+    await db.collection("users").doc(docID).get("Trusted-Users");
+  }**/
 
   Future<void> updateUserGeoLocation(String userID, GeoPoint location) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -37,7 +56,7 @@ class MapPageState extends State<MapPage> {
     await db.collection("users").doc(docID).update({"Location": location});
   }
 
-  Future<Position> getLocation() async {
+  Future<void> getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -61,25 +80,49 @@ class MapPageState extends State<MapPage> {
       );
     }
 
-    // Permissions are granted, call your original code safely
-    return await Geolocator.getCurrentPosition(
-      locationSettings: locationSettings,
+    const LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 5, // Triggers stream update every 5 meters moved
     );
+
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position pos) {
+          updateUserGeoLocation(
+            FirebaseAuth.instance.currentUser!.uid,
+            GeoPoint(pos.latitude, pos.longitude),
+          ); //Updates the user Position in the database
+        });
+
+    // Permissions are granted, call your original code safely
   }
 
-  Future<void> getTrustedUserLocation() async {
-    final CollectionReference users = FirebaseFirestore.instance.collection(
-      "users",
-    );
-    return null;
+  Future<UserModel> getUser(String userID) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //Gets the user in the firestore with the corresponding UID
+    QuerySnapshot snapshot = await db
+        .collection("users")
+        .where("id", isEqualTo: userID)
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      print("No document found with $userID,");
+    }
+
+    DocumentSnapshot doc = snapshot.docs.first;
+    UserModel model = UserModel.fromDocument(doc);
+
+    return model;
   }
 
   @override
   Widget build(BuildContext context) {
     getLocation();
     return Scaffold(
-      body: StreamBuilder(
-        stream: getLocation().asStream(),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(_currentUser)
+            .snapshots(),
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
             return Column(
@@ -89,36 +132,66 @@ class MapPageState extends State<MapPage> {
               ],
             );
           }
-          double longitude = snapshots.data!.longitude;
-          double latitude = snapshots.data!.latitude;
-          updateUserGeoLocation(
-            FirebaseAuth.instance.currentUser!.uid,
-            GeoPoint(latitude, longitude),
-          );
-          return FlutterMap(
-            options: MapOptions(
-              initialZoom: 9.2,
-              maxZoom: 18.0,
-              minZoom: 3.0,
-              initialCenter: LatLng(latitude, longitude),
+          UserModel user = UserModel.fromDocument(snapshots.data!);
+
+          List<Marker> mapMarkers = [];
+          List<String> trusted = user.trustedUsers;
+          mapMarkers.add(
+            Marker(
+              point: LatLng(user.location.latitude, user.location.longitude),
+              child: Icon(Icons.person),
             ),
-            children: [
-              TileLayer(
-                urlTemplate:
-                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: "com.bpa.safelygo",
-                minZoom: 3.0,
-                maxZoom: 18.0,
-              ),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: LatLng(latitude, longitude),
-                    child: Icon(Icons.person_2_rounded),
+          );
+          return Scaffold(
+            body: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where(FieldPath.documentId, whereIn: trusted)
+                  .snapshots(),
+              builder: (context, snapshots) {
+                if (snapshots.hasError) {
+                  return Center(child: Text("Error: ${snapshots.error}"));
+                }
+                if (!snapshots.hasData)
+                  return const Center(child: CircularProgressIndicator());
+
+                for (var s in snapshots.data!.docs) {
+                  UserModel model = UserModel.fromDocument(s);
+
+                  mapMarkers.add(
+                    Marker(
+                      point: LatLng(
+                        model.location.latitude,
+                        model.location.longitude,
+                      ),
+                      child: Icon(Icons.person),
+                    ),
+                  );
+                }
+
+                return FlutterMap(
+                  options: MapOptions(
+                    initialZoom: 9.2,
+                    maxZoom: 18.0,
+                    minZoom: 3.0,
+                    initialCenter: LatLng(
+                      user.location.latitude,
+                      user.location.latitude,
+                    ),
                   ),
-                ],
-              ),
-            ],
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: "com.bpa.safelygo",
+                      minZoom: 3.0,
+                      maxZoom: 18.0,
+                    ),
+                    MarkerLayer(markers: mapMarkers),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),
