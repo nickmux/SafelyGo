@@ -17,7 +17,11 @@ class HubState extends State<Hub> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> signout() async {
-    await auth.signOut();
+    try {
+      await auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      Future.error("Something went wrong:${e.message}");
+    }
   }
 
   @override

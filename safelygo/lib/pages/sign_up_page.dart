@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:safely_go/Models/UserModel.dart';
 import 'package:safely_go/main.dart';
 import 'package:safely_go/pages/main_page.dart';
@@ -83,14 +84,17 @@ class SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign Up')),
-      body: Padding(
-        padding: EdgeInsetsGeometry.all(16),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        primary: false,
+        keyboardDismissBehavior: .manual,
         child: Card(
           margin: EdgeInsetsGeometry.all(32),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 5,
               children: [
                 Text(
                   'Sign Up for SafelyGo',
@@ -138,6 +142,7 @@ class SignUpState extends State<SignUp> {
                 SizedBox(height: 64),
                 AutofillGroup(
                   child: TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       hint: Text("Password"),
                       label: Text('Password'),
@@ -166,6 +171,7 @@ class SignUpState extends State<SignUp> {
                 ),
                 SizedBox(height: 64),
                 TextFormField(
+                  obscureText: true,
                   decoration: InputDecoration(
                     hint: Text("Comfirm Password"),
                     label: Text('Comfirm Password'),
@@ -183,11 +189,11 @@ class SignUpState extends State<SignUp> {
                 SizedBox(height: 8),
                 OutlinedButton(
                   onPressed: () {
+                    TextInput.finishAutofillContext();
                     _signUp(email.text, password.text, username.text);
                   },
                   child: Text("Create Account"),
                 ),
-                Spacer(),
               ],
             ),
           ),

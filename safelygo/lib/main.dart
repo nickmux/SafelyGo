@@ -45,12 +45,7 @@ class MyApp extends StatelessWidget {
         // state is not lost during the reload. To reset the state, use hot
         // restart instead.
         //
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6750A4),
-          primary: Color(0xFF6750A4),
-          secondary: Color(0x00000000),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF8F7FA),
+        
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           border: OutlineInputBorder(

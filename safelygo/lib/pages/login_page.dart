@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:safely_go/main.dart';
 import 'package:safely_go/pages/main_page.dart';
 import 'package:safely_go/pages/sign_up_page.dart';
@@ -139,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     FilledButton(
                       onPressed: () {
+                        TextInput.finishAutofillContext();
                         signin(email.text, password.text);
                       },
                       style: ButtonStyle(visualDensity: VisualDensity.compact),
