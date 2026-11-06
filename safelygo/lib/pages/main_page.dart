@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safely_go/pages/emergencyContactPage.dart';
+import 'package:safely_go/pages/find_users_to_trust.dart';
 import 'package:safely_go/pages/map_page.dart';
 import 'package:safely_go/pages/report_list_page.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +12,34 @@ class Hub extends StatefulWidget {
   HubState createState() => HubState();
 }
 
-class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
+class HubState extends State<Hub> {
   int selectedIndex = 0;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> signout() async {
+    await auth.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    List<Widget> pages = [ReportsPage(), MapPage(), EmergencyContactPage()];
+    List<Widget> pages = [
+      ReportsPage(),
+      MapPage(),
+      EmergencyContactPage(),
+      UsersPage(),
+    ];
     return Scaffold(
       appBar: AppBar(
-        actions: [OutlinedButton(onPressed: null, child: Icon(Icons.house))],
+        actions: [
+          OutlinedButton(
+            onPressed: () {
+              setState(() {
+                signout();
+              });
+            },
+            child: Row(children: [Icon(Icons.logout), Text("Sign Out")]),
+          ),
+        ],
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
@@ -61,8 +80,4 @@ class HubState extends State<Hub> with AutomaticKeepAliveClientMixin {
       body: pages[selectedIndex],
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

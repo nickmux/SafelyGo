@@ -35,7 +35,10 @@ class SignUpState extends State<SignUp> {
   Future<void> _signUp(String email, String password, String username) async {
     if (_formKey.currentState!.validate()) {
       try {
-        auth.createUserWithEmailAndPassword(email: email, password: password);
+        await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
         auth.currentUser?.updateDisplayName(username);
         print("User logged in with: $email with the username $username");
 

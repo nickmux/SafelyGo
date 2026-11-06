@@ -130,9 +130,7 @@ class MapPageState extends State<MapPage> {
 
                   UserModel model = UserModel.fromDocument(s);
 
-
-
-                  //checks to see if each user has each other trusted.  
+                  //checks to see if each user has each other trusted.
                   for (String s in model.trustedUsers) {
                     if (s == _currentUser) {
                       mapMarkers.add(
@@ -163,24 +161,24 @@ class MapPageState extends State<MapPage> {
       ),
     );
   }
+}
 
-  Widget _buildMap({required List<Marker> markers, required LatLng center}) {
-    return FlutterMap(
-      options: MapOptions(
-        initialZoom: 9.2,
-        maxZoom: 18.0,
+Widget _buildMap({required List<Marker> markers, required LatLng center}) {
+  return FlutterMap(
+    options: MapOptions(
+      initialZoom: 9.2,
+      maxZoom: 18.0,
+      minZoom: 3.0,
+      initialCenter: center,
+    ),
+    children: [
+      TileLayer(
+        urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        userAgentPackageName: "com.bpa.safelygo",
         minZoom: 3.0,
-        initialCenter: center,
+        maxZoom: 18.0,
       ),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: "com.bpa.safelygo",
-          minZoom: 3.0,
-          maxZoom: 18.0,
-        ),
-        MarkerLayer(markers: markers),
-      ],
-    );
-  }
+      MarkerLayer(markers: markers),
+    ],
+  );
 }
