@@ -41,6 +41,7 @@ dependencies:
   firebase_core_dart:
   firebase_core: ^4.15.0
   flutter_spinkit:
+  latlong2: ^0.10.1
 
 dev_dependencies:
   flutter_test:

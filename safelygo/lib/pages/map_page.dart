@@ -20,23 +20,6 @@ class MapPageState extends State<MapPage> {
     distanceFilter: 100,
   );
   final String _currentUser = FirebaseAuth.instance.currentUser!.uid;
-  /**Future<List> getAllTrustedUsers() async {
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    //Gets the user in the firestore with the corresponding UID
-    QuerySnapshot snapshot = await db
-        .collection("users")
-        .where("id", isEqualTo: _currentUser)
-        .get();
-
-    if (snapshot.docs.isEmpty) {
-      print("No document found with $_currentUser,");
-      return [];
-    }
-
-    final docID = snapshot.docs.first.id;
-
-    await db.collection("users").doc(docID).get("Trusted-Users");
-  }**/
 
   Future<void> _updateUserGeoLocation(String userID, GeoPoint location) async {
     await FirebaseFirestore.instance
@@ -45,7 +28,7 @@ class MapPageState extends State<MapPage> {
         .update({"Location": location});
   }
 
-  Future<void> getLocation() async {
+  Future<void> _getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -86,6 +69,13 @@ class MapPageState extends State<MapPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Safely begin background geolocation tracking loops
+    _getLocation();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
@@ -119,7 +109,7 @@ class MapPageState extends State<MapPage> {
           if (trusted.isEmpty) {
             return _buildMap(
               markers: mapMarkers,
-              center: LatLng(user.location.latitude, (user.location.latitude)),
+              center: LatLng(user.location.latitude, (user.location.longitude)),
             );
           }
           return Scaffold(
@@ -140,21 +130,30 @@ class MapPageState extends State<MapPage> {
 
                   UserModel model = UserModel.fromDocument(s);
 
-                  mapMarkers.add(
-                    Marker(
-                      point: LatLng(
-                        model.location.latitude,
-                        model.location.longitude,
-                      ),
-                      child: Icon(Icons.person),
-                    ),
-                  );
+
+
+                  //checks to see if each user has each other trusted.  
+                  for (String s in model.trustedUsers) {
+                    if (s == _currentUser) {
+                      mapMarkers.add(
+                        Marker(
+                          point: LatLng(
+                            model.location.latitude,
+                            model.location.longitude,
+                          ),
+                          child: Icon(Icons.person),
+                        ),
+                      );
+                    } else {
+                      continue;
+                    }
+                  }
                 }
                 return _buildMap(
                   markers: mapMarkers,
                   center: LatLng(
                     user.location.latitude,
-                    (user.location.latitude),
+                    user.location.longitude,
                   ),
                 );
               },
