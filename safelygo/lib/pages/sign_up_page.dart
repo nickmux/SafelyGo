@@ -24,13 +24,12 @@ class SignUpState extends State<SignUp> {
       'users',
     ); //Gets a reference to the reports collection in firebase.
     //ID based off user uid
-    DocumentReference docRef = users.doc(auth.currentUser!.uid);
-
-    await docRef.set(
-      users.add(user.toDocument()),
-    ); //adds the report to the database when ready
-
-    print("Document created with ID: ${docRef.id}");
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .set(user.toDocument());
+    //adds the report to the database when ready
+    print("Document created with ID: ${user.uid}");
   }
 
   Future<void> _signUp(String email, String password, String username) async {

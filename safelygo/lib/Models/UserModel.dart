@@ -24,11 +24,13 @@ class UserModel {
   }
 
   factory UserModel.fromDocument(DocumentSnapshot doc) {
-    final user = doc.data() as Map<String, dynamic>? ?? {}; //
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>? ?? {};
     return UserModel(
       uid: doc.id,
       name: doc["Username"] as String? ?? "",
-      trustedUsers: doc["Trusted-Users"] as List<String>? ?? [],
+      trustedUsers: List<String>.from(
+        data['Trusted-Users'] ?? data['trustedUsers'] ?? [],
+      ),
       location: doc["Location"] as GeoPoint? ?? GeoPoint(0, 0),
     );
   }
