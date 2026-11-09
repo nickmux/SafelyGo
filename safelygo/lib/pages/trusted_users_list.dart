@@ -48,6 +48,20 @@ class _TrustedUserState extends State<TrustedUserList> {
                     if (snapshot.hasError) {
                       return const Text("Loading");
                     }
+                    if (!snapshots.hasData)
+                      return const Center(child: CircularProgressIndicator());
+
+                    List<UserWidget> userwidgets = [];
+                    for (DocumentSnapshot s in snapshots.data!.docs) {
+                      UserModel user = UserModel.fromDocument(s);
+                      userwidgets.add(UserWidget(user: user));
+                    }
+                    return ListView.builder(
+                      itemCount: snapshots.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return userwidgets[index];
+                      },
+                    );
                   }),
                 );
               })),
