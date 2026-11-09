@@ -6,6 +6,7 @@ import 'package:safely_go/Components/user_to_trust_widget.dart';
 import 'package:safely_go/Models/ReportModel.dart';
 import 'package:safely_go/Models/UserModel.dart';
 import 'package:safely_go/pages/report_creation_page.dart';
+import 'package:safely_go/pages/trusted_users_list.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
@@ -60,7 +61,7 @@ class UsersPage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute<void>(builder: (context) => ReportCreationLive()),
+            MaterialPageRoute<void>(builder: (context) => TrustedUserList()),
           );
         },
       ),
