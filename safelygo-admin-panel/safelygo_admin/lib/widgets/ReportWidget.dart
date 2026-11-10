@@ -19,6 +19,7 @@ class _ReportWidgetGui extends State<ReportWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: .center,
       children: [
         ListTile(
           leading: const Icon(Icons.safety_check),
@@ -26,6 +27,7 @@ class _ReportWidgetGui extends State<ReportWidget> {
           subtitle: Text(widget.model.description),
         ),
         Row(
+          crossAxisAlignment: .center,
           children: [
             SizedBox(width: 32),
             DropdownButton<String>(
