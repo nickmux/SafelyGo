@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safelygo_admin/Models/ReportModel.dart';
+import 'package:safelygo_admin/firebase.dart';
 
 class ReportWidget extends StatefulWidget {
   ReportWidget({super.key, required this.model});
@@ -31,6 +32,7 @@ class _ReportWidgetGui extends State<ReportWidget> {
               onChanged: (String? value) {
                 setState(() {
                   this.value = value;
+                  FirebaseTools.updateReportStatud(widget.model.id, value!);
                 });
                 print(value);
               },
