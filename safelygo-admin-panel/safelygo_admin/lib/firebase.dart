@@ -10,7 +10,7 @@ class FirebaseTools {
     "users",
   );
 
-  static Future<void> updateReportStatud(String id, String newStatus) async {
+  static Future<void> updateReportStatus(String id, String newStatus) async {
     await FirebaseFirestore.instance
         .collection("reports")
         .doc(id) // Replaced the redundant .where query lookup

@@ -1,18 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:safelygo_admin/widgets/ReportSectionWidget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
       options: FirebaseOptions(
-        apiKey: "AIzaSyCk-JpKWSbiixbIKUkUuQIW5boXdqynpo4",
-        appId: "1:6735545479:android:280ab5aa3603d0468aa422",
-        messagingSenderId: "6735545479",
+        apiKey: "AIzaSyCSYyvJPsnHpyofJpkVB5Iz1UFYRo45SrE",
+        authDomain: "safelygo-backend.firebaseapp.com",
         projectId: "safelygo-backend",
+        storageBucket: "safelygo-backend.firebasestorage.app",
+        messagingSenderId: "6735545479",
+        appId: "1:6735545479:web:a0eb739275eb2a088aa422",
       ),
     );
-  } catch (e) {
+  } on FirebaseException catch (e) {
     print("e");
   }
   runApp(MyApp());
@@ -68,8 +71,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -79,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      extendBody: false,
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
@@ -106,13 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: .center,
-          children: [
-            
-          ],
-        
+          children: [Reportsectionwidget()],
         ),
       ),
-    
     );
   }
 }

@@ -21,18 +21,20 @@ class _ReportWidgetGui extends State<ReportWidget> {
     return Column(
       children: [
         ListTile(
+          leading: const Icon(Icons.safety_check),
           title: Text(widget.model.title),
           subtitle: Text(widget.model.description),
         ),
         Row(
           children: [
+            SizedBox(width: 32),
             DropdownButton<String>(
               items: type.map(buildOptions).toList(),
               value: value,
               onChanged: (String? value) {
                 setState(() {
                   this.value = value;
-                  FirebaseTools.updateReportStatud(widget.model.id, value!);
+                  FirebaseTools.updateReportStatus(widget.model.id, value!);
                 });
                 print(value);
               },

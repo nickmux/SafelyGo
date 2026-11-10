@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
         title: Text("SafelyGo"),
       ),
       resizeToAvoidBottomInset: true,
+
       body: Padding(
         padding: EdgeInsetsGeometry.directional(
           bottom: 20,
