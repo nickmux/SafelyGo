@@ -14,6 +14,7 @@ class _ReportWidgetGui extends State<ReportWidget> {
       DropdownMenuItem(value: item, child: Text(item));
   final type = ["Pending", "On Going", "Resolved"];
   String? value = "Pending";
+
   @override
   Widget build(BuildContext context) {
     return Column(
