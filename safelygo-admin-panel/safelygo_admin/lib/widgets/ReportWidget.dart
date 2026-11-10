@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:safelygo_admin/Models/ReportModel.dart';
 
@@ -11,8 +10,33 @@ class ReportWidget extends StatefulWidget {
 }
 
 class _ReportWidgetGui extends State<ReportWidget> {
+  DropdownMenuItem<String> buildOptions(String item) =>
+      DropdownMenuItem(value: item, child: Text(item));
+  final type = ["Pending", "On Going", "Resolved"];
+  String? value = "Pending";
   @override
   Widget build(BuildContext context) {
-    return Column(children: [ListTile(title: Text(widget.model.title))]);
+    return Column(
+      children: [
+        ListTile(
+          title: Text(widget.model.title),
+          subtitle: Text(widget.model.description),
+        ),
+        Row(
+          children: [
+            DropdownButton<String>(
+              items: type.map(buildOptions).toList(),
+              value: value,
+              onChanged: (String? value) {
+                setState(() {
+                  this.value = value;
+                });
+                print(value);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
