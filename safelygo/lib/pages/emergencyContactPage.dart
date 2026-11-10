@@ -1,9 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safely_go/Components/emergency_contact_widget.dart';
-import 'package:safely_go/Components/report_widget.dart';
 import 'package:flutter/material.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
-import 'package:safely_go/Models/ReportModel.dart';
 import 'package:safely_go/pages/report_creation_page.dart';
 
 class EmergencyContactPage extends StatelessWidget {

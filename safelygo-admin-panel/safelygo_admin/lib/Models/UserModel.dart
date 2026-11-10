@@ -1,0 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserModel {
+  final String name;
+  final String uid;
+  final GeoPoint location;
+  final List<String> trustedUsers;
+
+  UserModel({
+    required this.name,
+    required this.uid,
+    this.location = const GeoPoint(0, 0),
+    this.trustedUsers = const [],
+  });
+
+  // Converts to a firestore document
+  Map<String, dynamic> toDocument() {
+    return {
+      "id": uid,
+      'Username': name, // The Title
+      "Location": location,
+      "Trusted-Users": trustedUsers,
+    };
+  }
+
+  factory UserModel.fromDocument(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>? ?? {};
+    return UserModel(
+      uid: doc.id,
+      name: doc["Username"] as String? ?? "",
+      trustedUsers: List<String>.from(
+        data['Trusted-Users'] ?? data['trustedUsers'] ?? [],
+      ),
+      location: doc["Location"] as GeoPoint? ?? GeoPoint(0, 0),
+    );
+  }
+}
