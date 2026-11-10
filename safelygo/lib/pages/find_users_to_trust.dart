@@ -1,12 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:safely_go/Components/report_widget.dart';
 import 'package:flutter/material.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:safely_go/Components/user_to_trust_widget.dart';
-import 'package:safely_go/Models/ReportModel.dart';
 import 'package:safely_go/Models/UserModel.dart';
-import 'package:safely_go/pages/report_creation_page.dart';
-import 'package:safely_go/pages/trusted_users_list.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
@@ -17,7 +13,6 @@ class UsersPage extends StatelessWidget {
     final CollectionReference users = FirebaseFirestore.instance.collection(
       "users",
     );
-    TextEditingController searchUsernames = TextEditingController();
     final FirebaseAuth auth = FirebaseAuth.instance;
     return Scaffold(
       body: SingleChildScrollView(
@@ -29,11 +24,9 @@ class UsersPage extends StatelessWidget {
               "Find People you trust.",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
             ),
-            SearchBar(controller: searchUsernames),
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("users")
-                  .where("id", isNotEqualTo: auth.currentUser!.uid)
                   .snapshots(),
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
@@ -55,15 +48,6 @@ class UsersPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      floatingActionButton: OutlinedButton(
-        child: Text("View Trusted Users"),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => TrustedUserList()),
-          );
-        },
       ),
     );
   }

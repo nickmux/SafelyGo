@@ -7,9 +7,12 @@ class EmergencyContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<EmergencyContactWidget> list = [
-      EmergencyContactWidget(number: "800-212-1213", name: "School "),
-      EmergencyContactWidget(number: "989-332-3434", name: ""),
-      EmergencyContactWidget(number: "989-122-2222", name: "Nerd"),
+      EmergencyContactWidget(
+        number: "800-212-1213",
+        name: "School's Front Office ",
+      ),
+      EmergencyContactWidget(number: "989-332-3434", name: "Counciler"),
+      EmergencyContactWidget(number: "989-122-2222", name: "Teacher"),
     ];
     return Scaffold(
       body: SingleChildScrollView(
