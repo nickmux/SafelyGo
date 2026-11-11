@@ -33,15 +33,6 @@ class EmergencyContactPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => ReportCreationLive()),
-          );
-        },
-      ),
     );
   }
 }

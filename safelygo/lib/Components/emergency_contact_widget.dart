@@ -32,7 +32,7 @@ class EmergencyContactWidget extends StatelessWidget {
                     print("button");
                   }
                 },
-                child: Text("Status"),
+                child: Text("Call"),
               ),
             ],
           ),

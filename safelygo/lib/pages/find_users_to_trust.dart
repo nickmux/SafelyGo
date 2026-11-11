@@ -13,7 +13,10 @@ class UsersPage extends StatelessWidget {
     final CollectionReference users = FirebaseFirestore.instance.collection(
       "users",
     );
+    //instance of a auth
     final FirebaseAuth auth = FirebaseAuth.instance;
+    //Current user's uid
+    final String _currentUser = auth.currentUser!.uid;
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsetsGeometry.all(32),
@@ -27,20 +30,29 @@ class UsersPage extends StatelessWidget {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("users")
+                  .where(FieldPath.documentId, isNotEqualTo: "placeholder")
                   .snapshots(),
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
                   return const Text("Loading");
                 }
+                List<DocumentSnapshot> docs = [];
+                //to get all the users that are not the current user since firebase doesn't like when you use multiple !='s
+                for (DocumentSnapshot snapshot in snapshots.data!.docs) {
+                  if (snapshot.id == _currentUser) {
+                    continue;
+                  }
+                  docs.add(snapshot);
+                }
 
                 return ListView.builder(
-                  itemCount: snapshots.data?.docs.length,
+                  itemCount: docs.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    DocumentSnapshot doc = snapshots.data!.docs[index];
-                    UserModel user = UserModel.fromDocument(doc);
+                    DocumentSnapshot doc = docs[index];
 
+                    UserModel user = UserModel.fromDocument(doc);
                     return UserWidget(user: user);
                   },
                 );

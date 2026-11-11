@@ -69,10 +69,12 @@ class AuthGateway extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
-      builder: ((context, snapshot) {
+      builder: ((context, snapshot) { 
+        //Che
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         }
+
         if (snapshot.hasData && snapshot.data != null) {
           return const Hub();
         }
