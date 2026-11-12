@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   final String name;
   final String uid;
+  final String shareCode;
   final GeoPoint location;
   final List<String> trustedUsers;
 
   UserModel({
     required this.name,
     required this.uid,
+    required this.shareCode,
     this.location = const GeoPoint(0, 0),
     this.trustedUsers = const [],
   });
@@ -20,6 +22,7 @@ class UserModel {
       'Username': name, // The Title
       "Location": location,
       "Trusted-Users": trustedUsers,
+      "Share-Code": shareCode,
     };
   }
 
@@ -32,6 +35,7 @@ class UserModel {
         data['Trusted-Users'] ?? data['trustedUsers'] ?? [],
       ),
       location: doc["Location"] as GeoPoint? ?? GeoPoint(0, 0),
+      shareCode: doc["Share-Code"] as String? ?? "",
     );
   }
 }

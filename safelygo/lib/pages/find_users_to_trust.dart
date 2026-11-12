@@ -20,45 +20,22 @@ class UsersPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsetsGeometry.all(32),
-        child: Column(
-          children: [
-            SizedBox(height: 32),
-            Text(
-              "Find People you trust.",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
-            ),
-            StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("users")
-                  .where(FieldPath.documentId, isNotEqualTo: "placeholder")
-                  .snapshots(),
-              builder: (context, snapshots) {
-                if (!snapshots.hasData) {
-                  return const Text("Loading");
-                }
-                List<DocumentSnapshot> docs = [];
-                //to get all the users that are not the current user since firebase doesn't like when you use multiple !='s
-                for (DocumentSnapshot snapshot in snapshots.data!.docs) {
-                  if (snapshot.id == _currentUser) {
-                    continue;
-                  }
-                  docs.add(snapshot);
-                }
-
-                return ListView.builder(
-                  itemCount: docs.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot doc = docs[index];
-
-                    UserModel user = UserModel.fromDocument(doc);
-                    return UserWidget(user: user);
-                  },
-                );
-              },
-            ),
-          ],
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 32),
+              Text(
+                "Trust a User",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
+              ),
+              Text("To trust a user Share this code with them: "),
+              Card(
+                child: Center(
+                  child: Column(children: [Text("Users you trust")]),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

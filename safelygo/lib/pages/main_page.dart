@@ -50,12 +50,10 @@ class HubState extends State<Hub> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Home"),
-        leading: Icon(Icons.house),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
         // Prevents unexpected black backgrounds
         onTap: (index) {
           setState(() {
@@ -71,13 +69,10 @@ class HubState extends State<Hub> {
             label: "Map",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Emergency Contact Directory",
+            icon: Icon(Icons.contact_emergency),
+            label: "Contacts",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2),
-            label: "Find Trusted People",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Trust"),
         ],
       ),
 
