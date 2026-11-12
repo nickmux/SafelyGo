@@ -44,7 +44,7 @@ class SignUpState extends State<SignUp> {
         print("User logged in with: $email with the username $username");
 
         addUserToDatabase(
-          UserModel(name: username, uid: auth.currentUser!.uid),
+          UserModel(name: username, uid: auth.currentUser!.uid, shareCode: ''),
         );
         auth.authStateChanges().listen((user) {
           Navigator.pushReplacement(

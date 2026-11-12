@@ -17,6 +17,8 @@ class UsersPage extends StatelessWidget {
     final FirebaseAuth auth = FirebaseAuth.instance;
     //Current user's uid
     final String _currentUser = auth.currentUser!.uid;
+    final String _shareCode = auth.currentUser!.uid.substring(0, 9);
+    print(_shareCode);
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsetsGeometry.all(32),
@@ -28,7 +30,14 @@ class UsersPage extends StatelessWidget {
                 "Trust a User",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight(300)),
               ),
-              Text("To trust a user Share this code with them: "),
+              Text("To trust a user Share this code with them: $_shareCode"),
+              SizedBox(height: 64),
+              Text(
+                "Wanna add a user instead? Type the user's share code here!",
+              ),
+              SizedBox(height: 32),
+              TextFormField(),
+              SizedBox(height: 32),
               Card(
                 child: Center(
                   child: Column(children: [Text("Users you trust")]),
