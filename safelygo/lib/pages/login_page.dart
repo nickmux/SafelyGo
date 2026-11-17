@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:safely_go/main.dart';
-import 'package:safely_go/pages/main_page.dart';
 import 'package:safely_go/pages/sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       Navigator.pushReplacement(
         context,
-
         MaterialPageRoute<void>(builder: (context) => AuthGateway()),
       );
     } on FirebaseAuthException catch (e) {

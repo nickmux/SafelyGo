@@ -1,6 +1,5 @@
 import 'package:safely_go/Components/emergency_contact_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:safely_go/pages/report_creation_page.dart';
 
 class EmergencyContactPage extends StatelessWidget {
   const EmergencyContactPage({super.key});

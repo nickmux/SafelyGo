@@ -73,7 +73,7 @@ class SignUpState extends State<SignUp> {
           ),
         );
       } on FirebaseException catch (e) {
-        print("cry:" + e.message!);
+        print("cry:${e.message!}");
       }
     } else {
       print("Form invalid for one of the following displayed on screen");
@@ -192,6 +192,7 @@ class SignUpState extends State<SignUp> {
                     if (value!.isEmpty) {
                       return "Please confirm your password.";
                     }
+                    return null;
                   },
                 ),
                 SizedBox(height: 8),

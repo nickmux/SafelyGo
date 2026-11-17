@@ -15,7 +15,7 @@ Future<void> main() async {
         appId: "1:6735545479:web:a0eb739275eb2a088aa422",
       ),
     );
-  } on FirebaseException catch (e) {
+  } on FirebaseException {
     print("e");
   }
   runApp(MyApp());

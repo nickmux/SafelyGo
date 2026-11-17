@@ -49,17 +49,9 @@ class UserWidget extends StatelessWidget {
 
                   UserModel model = UserModel.fromDocument(snapshot.data!);
 
-                  for (String s in model.trustedUsers) {
-                    if (s == user.uid) {
-                      return TextButton(
-                        onPressed: _removeTrustedUser,
-                        child: Text("Remove Trusted User"),
-                      );
-                    }
-                  }
                   return TextButton(
-                    onPressed: _addTrustedUser,
-                    child: Text("Add Trusted User"),
+                    onPressed: _removeTrustedUser,
+                    child: Text("Remove Trusted User"),
                   );
                 },
               ),

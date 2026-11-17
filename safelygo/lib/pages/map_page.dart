@@ -122,8 +122,9 @@ class MapPageState extends State<MapPage> {
                 if (snapshots.hasError) {
                   return Center(child: Text("Error: ${snapshots.error}"));
                 }
-                if (!snapshots.hasData)
+                if (!snapshots.hasData) {
                   return const Center(child: CircularProgressIndicator());
+                }
 
                 for (var s in snapshots.data!.docs) {
                   if (s.id == _currentUser) continue;

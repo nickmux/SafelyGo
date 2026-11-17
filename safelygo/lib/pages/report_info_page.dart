@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:safely_go/Models/ReportModel.dart';
-import 'package:safely_go/main.dart';
 
 class ReportInfo extends StatelessWidget {
   const ReportInfo({super.key, required this.report});

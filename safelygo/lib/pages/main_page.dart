@@ -53,7 +53,7 @@ class HubState extends State<Hub> {
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         // Prevents unexpected black backgrounds
         onTap: (index) {
           setState(() {

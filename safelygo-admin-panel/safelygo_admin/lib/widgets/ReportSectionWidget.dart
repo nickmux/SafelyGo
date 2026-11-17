@@ -5,6 +5,8 @@ import 'package:safelygo_admin/firebase.dart';
 import 'package:safelygo_admin/widgets/ReportWidget.dart';
 
 class Reportsectionwidget extends StatelessWidget {
+  const Reportsectionwidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

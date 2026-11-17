@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safely_go/Models/ReportModel.dart';
 import 'package:safely_go/pages/report_info_page.dart';
