@@ -16,18 +16,26 @@ class UsersPage extends StatelessWidget {
     //instance of a auth
     final FirebaseAuth auth = FirebaseAuth.instance;
     //Current user's uid
+    final TextEditingController shareCodeController = TextEditingController();
     final String currentUser = auth.currentUser!.uid;
-    final String shareCode = auth.currentUser!.uid.substring(0, 9);
+    final String _shareCode = auth.currentUser!.uid.substring(0, 9);
     final _formKey = GlobalKey<FormState>();
     Future<void> _addTrustedUser(String shareCode) async {
-      if (_formKey.currentState!.validate()) {
+      if (_formKey.currentState!.validate() && _shareCode != shareCode) {
+        QuerySnapshot<Object?> doc = await users
+            .where("Share-Code", isEqualTo: shareCode)
+            .get();
+        String s = doc.docs.first.id;
         print("Validating");
+        users.doc(currentUser).update({
+          "Trusted-Users": FieldValue.arrayUnion([s]),
+        });
       }
     }
 
-    print(shareCode);
+    print(_shareCode);
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Padding(
         padding: EdgeInsetsGeometry.all(32),
         child: Center(
           child: Column(
@@ -38,7 +46,7 @@ class UsersPage extends StatelessWidget {
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight(360)),
               ),
               Text(
-                "To have a user trust you, share this code with them: $shareCode",
+                "To have a user trust you, share this code with them: $_shareCode",
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 34),
@@ -49,6 +57,7 @@ class UsersPage extends StatelessWidget {
               SizedBox(height: 32),
 
               Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
@@ -57,9 +66,15 @@ class UsersPage extends StatelessWidget {
                         label: Text("Unique User Code"),
                         border: OutlineInputBorder(),
                       ),
+                      controller: shareCodeController,
                     ),
                     SizedBox(height: 16),
-                    OutlinedButton(onPressed: null, child: Text("Add User")),
+                    OutlinedButton(
+                      onPressed: () {
+                        _addTrustedUser(shareCodeController.text);
+                      },
+                      child: Text("Add User"),
+                    ),
                   ],
                 ),
               ),
@@ -95,7 +110,14 @@ class UsersPage extends StatelessWidget {
                                 .where(FieldPath.documentId, whereIn: trusted)
                                 .snapshots(),
                             builder: ((context, snapshots) {
+                              if (!snapshots.hasData) {
+                                return Text("wow");
+                              }
+
                               return ListView.builder(
+                                itemCount: snapshots.data!.docs.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   QueryDocumentSnapshot doc =
                                       snapshots.data!.docs[index];
