@@ -25,6 +25,11 @@ class HubState extends State<Hub> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
       ReportsPage(),

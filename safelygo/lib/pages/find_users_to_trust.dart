@@ -25,17 +25,19 @@ class UsersPage extends StatelessWidget {
         QuerySnapshot<Object?> doc = await users
             .where("Share-Code", isEqualTo: shareCode)
             .get();
-        String s = doc.docs.first.id;
-        print("Validating");
-        users.doc(currentUser).update({
-          "Trusted-Users": FieldValue.arrayUnion([s]),
-        });
+        if (shareCode.isNotEmpty) {
+          String s = doc.docs.first.id;
+          print("Validating");
+          users.doc(currentUser).update({
+            "Trusted-Users": FieldValue.arrayUnion([s]),
+          });
+        }
       }
     }
 
     print(_shareCode);
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsetsGeometry.all(32),
         child: Center(
           child: Column(

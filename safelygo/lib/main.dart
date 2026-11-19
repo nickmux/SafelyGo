@@ -44,7 +44,9 @@ class MyApp extends StatelessWidget {
         // state is not lost during the reload. To reset the state, use hot
         // restart instead.
         //
-        
+        useMaterial3: false,
+        useSystemColors: true,
+
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           border: OutlineInputBorder(
@@ -68,7 +70,7 @@ class AuthGateway extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
-      builder: ((context, snapshot) { 
+      builder: ((context, snapshot) {
         //Che
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
